@@ -24,6 +24,11 @@ theme        = "PaperMod"
 [taxonomies]
   tag = "tags"
 
+# Allow inline HTML (e.g. <video>, <iframe>) in markdown. "Unsafe" only matters
+# when accepting third-party markdown submissions, which this site doesn't.
+[markup.goldmark.renderer]
+  unsafe = true
+
 # ----------------------------------------------------------------------------
 # Main navigation menu
 # ----------------------------------------------------------------------------
