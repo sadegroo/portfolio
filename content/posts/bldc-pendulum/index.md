@@ -103,7 +103,13 @@ Alt:    Static SVG block diagram is a fine fallback. Keep it minimal.
 
 Here's the part I'm proudest of: the *same Simulink model* drives both the simulation and the real hardware.
 
-The model contains the pendulum's nonlinear equations of motion (derived symbolically with Euler-Lagrange, cached and reused), an Unscented Kalman Filter that reconstructs the full 4-D state (two angles plus two angular velocities) from the encoder readings, and the LQR + swing-up controllers. A Simulink "variant subsystem" sits in the middle: when you simulate, it routes the actuator command into the nonlinear plant block; when you deploy, it routes it out through the SPI interface to the real STM32. Those are the two targets in the title — *simulation* and *real hardware*, from one model file. (The choice of stepper vs BLDC at the bottom of the stack is a second variant switch, layered underneath: torque-out for one rig, acceleration-out for the other.)
+The model contains the pendulum's nonlinear equations of motion (derived symbolically with Euler-Lagrange, cached and reused), an Unscented Kalman Filter that reconstructs the full 4-D state (two angles plus two angular velocities) from the encoder readings, and the LQR + swing-up controllers. The simulated plant itself is built in Simscape Multibody — joints, transforms, and rigid bodies that mirror the bench geometry.
+
+{{< figure src="simulink_multibody_model.png" alt="Simscape Multibody block diagram of the pendulum: revolute joints, rigid transforms, and brick body blocks wired into state outputs" caption="The simulated plant in Simscape Multibody — same geometry, same joints, same dynamics as the bench rig." >}}
+
+A Simulink "variant subsystem" sits in the middle: when you simulate, it routes the actuator command into the Multibody plant; when you deploy, it routes it out through the SPI interface to the real STM32. Those are the two targets in the title — *simulation* and *real hardware*, from one model file. (The choice of stepper vs BLDC at the bottom of the stack is a second variant switch, layered underneath: torque-out for one rig, acceleration-out for the other.)
+
+{{< figure src="simulink_variant_blocks.png" alt="The variant subsystem in Simulink: top branch labelled SIMULATION wraps a 3D pendulum render; bottom branch labelled PHYSICAL SYSTEM wraps the same render. Both branches have identical input and output ports" caption="The variant subsystem itself: top = simulated plant; bottom = SPI bridge to the real bench. Same ports, same controller upstream." >}}
 
 In practice this means: tune the controller in simulation, hit one button, and the same controller is now running on the Pi commanding the real motor. No translation step. No "well it worked in MATLAB but…" The same blocks, the same gains, the same code path.
 
@@ -178,7 +184,14 @@ File:   content/posts/bldc-pendulum/pushtest.mp4
   <figcaption>Push test: a finger tap, a harder one, and finally one shove too many.</figcaption>
 </figure>
 
-If you want to play with it without building hardware, the Simulink model runs end-to-end in pure simulation; it's the variant-subsystem trick described above, in reverse. You won't feel the motor sing, but you'll see the same trajectories.
+And here's the same loop in pure simulation — swing-up trigger, the Mechanics Explorer mirroring the model in 3D, two setpoint nudges, then the drop button:
+
+<figure>
+  <video controls preload="metadata" width="100%" src="simulink_simulation.mp4"></video>
+  <figcaption>Pure-simulation run: same controller, same gains, no motor.</figcaption>
+</figure>
+
+If you want to try it yourself, the Simulink model runs end-to-end like this — same controller, same gains, same code path as on hardware. You won't feel the motor sing, but you'll see the same trajectories.
 
 ## Try it / source
 

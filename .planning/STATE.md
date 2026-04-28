@@ -28,7 +28,7 @@ progress:
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-28 — All three repo URLs in the BLDC post confirmed and TODO markers cleared.
+Last activity: 2026-04-28 — q04: digital-twin section gets two Simscape screenshots; pure-simulation video added (588 KB after user re-compress); swingup + pushtest re-encoded for visual consistency. Pushed to origin/main; 33 MB intermediate commit squashed out of history before push.
 
 ## Performance Metrics
 
@@ -97,10 +97,12 @@ q01 and q02 were properly scoped through `/gsd-quick`; q03 was retroactive (two 
 
 2 placeholder visuals still commented out in `content/posts/bldc-pendulum/index.md`:
 
-- 🎥 Architecture animation (optional)
-- 📷 Sim-vs-hardware overlay plot
+- 🎥 Architecture animation (optional, low priority)
+- 📷 Sim-vs-hardware overlay plot (the "digital twin is real" payoff shot — natural next phase-5 work)
 
-(Landed 2026-04-28: 📷 Competition leaderboard via q01 — `scoring_theta.png` + `scoring_pi.png`; 📷 Rig wide shot — `hardware_picture.png` of the BLDC rig; 🎥 Push test — `pushtest.mp4`, the original "push-recovery" placeholder repurposed since the actual clip ends with the controller failing rather than recovering.)
+(Landed 2026-04-28: 📷 Competition leaderboard via q01 — `scoring_theta.png` + `scoring_pi.png`; 📷 Rig wide shot — `hardware_picture.png` of the BLDC rig; 🎥 Push test — `pushtest.mp4`, the original "push-recovery" placeholder repurposed since the actual clip ends with the controller failing rather than recovering. Bonus visuals beyond the original Phase 5 scope: 📷 `simulink_multibody_model.png` and 📷 `simulink_variant_blocks.png` in the digital-twin section, 🎥 `simulink_simulation.mp4` showing the pure-simulation experience end-to-end.)
+
+**Page weight resolved:** initial `simulink_simulation.mp4` encode was 33 MB; user re-compressed to 588 KB before q04 hit origin. The bloat-carrying intermediate commits were squashed locally before push, so the 33 MB blob never reaches GitHub.
 
 Each remaining item has a brief in the source explaining what to capture; uncomment the corresponding shortcode/HTML when each asset lands.
 
@@ -118,7 +120,8 @@ Each remaining item has a brief in the source explaining what to capture; uncomm
 |---|-------------|------|--------|-----------|
 | 260428-q01 | Add scoring figures (Theta + Pi) to BLDC post competition section | 2026-04-28 | fd5ff30 | [260428-q01-bldc-leaderboard-figures](./quick/260428-q01-bldc-leaderboard-figures/) |
 | 260428-q02 | BLDC post: dual-rig rewrite (one kit, two motor variants — stepper + BLDC) | 2026-04-28 | 520aa18 | [260428-q02-dual-rig-rewrite](./quick/260428-q02-dual-rig-rewrite/) |
-| 260428-q03 | BLDC post asset wiring (hardware photo + push-test video + caption both clips); retroactively documents commits ffa66a6 + 8bd39a9 | 2026-04-28 | _pending_ | [260428-q03-bldc-post-asset-wiring](./quick/260428-q03-bldc-post-asset-wiring/) |
+| 260428-q03 | BLDC post asset wiring (hardware photo + push-test video + caption both clips); retroactively documents commits ffa66a6 + 8bd39a9 | 2026-04-28 | 90aca5d | [260428-q03-bldc-post-asset-wiring](./quick/260428-q03-bldc-post-asset-wiring/) |
+| 260428-q04 | Digital-twin visuals (Simscape Multibody screenshot + variant-subsystem screenshot + pure-simulation video); re-encoded swingup + pushtest for size/visual consistency | 2026-04-28 | _pending_ | [260428-q04-digital-twin-visuals](./quick/260428-q04-digital-twin-visuals/) |
 
 ### Risks
 
