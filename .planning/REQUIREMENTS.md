@@ -72,30 +72,30 @@ Deferred — not in this milestone.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TOOL-01 | TBD | Pending |
-| TOOL-02 | TBD | Pending |
-| SCAF-01 | TBD | Pending |
-| SCAF-02 | TBD | Pending |
-| SCAF-03 | TBD | Pending |
-| SCAF-04 | TBD | Pending |
-| CONT-01 | TBD | Pending |
-| CONT-02 | TBD | Pending |
-| CONT-03 | TBD | Pending |
-| CONT-04 | TBD | Pending |
-| CI-01 | TBD | Pending |
-| CI-02 | TBD | Pending |
-| CI-03 | TBD | Pending |
-| HYG-01 | TBD | Pending |
-| HYG-02 | TBD | Pending |
-| HYG-03 | TBD | Pending |
-| SMOKE-01 | TBD | Pending |
-| HAND-01 | TBD | Pending |
+| TOOL-01 | Phase 1 | Pending |
+| TOOL-02 | Phase 1 | Pending |
+| SCAF-01 | Phase 1 | Pending |
+| SCAF-02 | Phase 1 | Pending |
+| SCAF-03 | Phase 1 | Pending |
+| SCAF-04 | Phase 1 | Pending |
+| CONT-01 | Phase 2 | Pending |
+| CONT-02 | Phase 2 | Pending |
+| CONT-03 | Phase 2 | Pending |
+| CONT-04 | Phase 2 | Pending |
+| CI-01 | Phase 3 | Pending |
+| CI-02 | Phase 3 | Pending |
+| CI-03 | Phase 3 | Pending |
+| HYG-01 | Phase 1 | Pending |
+| HYG-02 | Phase 1 | Pending |
+| HYG-03 | Phase 1 | Pending |
+| SMOKE-01 | Phase 4 | Pending |
+| HAND-01 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 18 total
-- Mapped to phases: 0 (filled by roadmapper)
-- Unmapped: 18 — to be resolved during roadmap creation
+- Mapped to phases: 18
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-28*
-*Last updated: 2026-04-28 after initialization*
+*Last updated: 2026-04-28 after roadmap creation*
