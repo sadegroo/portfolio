@@ -1,0 +1,5 @@
+==================== STEPPER LEADERBOARD ====================
+        Team        BestSwingupTime    BestSMAPE    TimePoints    SMAPEPoints    ParticipationPoint    TotalPoints    Rank
+    ____________    _______________    _________    __________    ___________    __________________    ___________    ____
+    "Team Theta"         4.681          119.26          2              1                 1                  4          1  
+    "Team Pi"            5.741           67.52          1              2                 1                  4          1 
