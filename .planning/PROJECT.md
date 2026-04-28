@@ -1,5 +1,17 @@
 # Sadegroo Portfolio
 
+## Current Milestone: v2 — Content & Custom Domain
+
+**Goal:** Take the live scaffold from "shippable" to "a portfolio worth visiting": finish the BLDC post visuals, ship at least one more post, switch to the branded subdomain when DNS is ready, and harden CI for routine use.
+
+**Target features:**
+- Fill the 4 placeholder visuals in the BLDC pendulum post (rig wide shot, sim-vs-hardware overlay, leaderboard, push-recovery clip)
+- Author at least one additional post end-to-end as a page bundle (3D printing or home automation)
+- Switch to custom subdomain `https://pages.sadegroo.xyz/` once DNS is configured
+- CI hardening: pin Hugo via Renovate/Dependabot; build-only PR check on non-main branches
+
+**Phase numbering continues from v1.** Phases 5 onwards. The 5 PATCH-* items shipped post-v1 (between milestone close and v2 start) are documented in `.planning/reports/20260428-session-report.md` and `REQUIREMENTS.md` rather than retroactively wrapped in PLAN/SUMMARY artifacts.
+
 ## What This Is
 
 A personal portfolio and project blog for Sander ("sadegroo") covering embedded systems, control engineering, 3D printing, and home automation. Built as a static site with Hugo + the PaperMod theme, deployed to GitHub Pages from `github.com/sadegroo/portfolio` on push to `main`.
@@ -24,9 +36,12 @@ Pushing to `main` publishes the site at `https://sadegroo.github.io/portfolio/` 
 
 ### Active
 
-- [ ] Fill the 4 remaining placeholder visuals in the BLDC post (rig wide shot, sim-vs-hardware overlay, leaderboard, push-recovery clip) — POL-01 partial
-- [ ] Author additional posts (3D printing, home automation, etc.) — POL-03
-- [ ] When DNS for `sadegroo.xyz` is configured, switch to custom subdomain `pages.sadegroo.xyz` — see `.planning/seeds/custom-domain-pages-sadegroo-xyz.md`
+(All in v2 milestone — see "Current Milestone" above. Detailed REQ-IDs in REQUIREMENTS.md under "v2 Requirements".)
+
+- [ ] **VIS-***: Fill the 4 remaining placeholder visuals in the BLDC post (Phase 5)
+- [ ] **POST-***: Author at least one additional post end-to-end as a page bundle (Phase 6)
+- [ ] **DOM-***: Switch to custom subdomain `pages.sadegroo.xyz` once DNS is configured (Phase 7)
+- [ ] **CIH-***: Pin Hugo via Renovate/Dependabot + add PR-only build check (Phase 8)
 
 ### Out of Scope
 
@@ -87,4 +102,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-28 after post-v1 session (BLDC publish + patches; see `.planning/reports/20260428-session-report.md`)*
+*Last updated: 2026-04-28 after milestone v2 (Content & Custom Domain) start*

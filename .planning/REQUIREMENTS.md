@@ -55,18 +55,43 @@ These were not in the original v1 plan but landed in the same calendar day, post
 
 - **POL-01 (partial)**: BLDC post body is published with full prose; 4 placeholder visuals still commented out in `content/posts/bldc-pendulum/index.md` (rig wide shot, sim-vs-hardware overlay, leaderboard, push-recovery clip). Each is a brief in the source; uncomment as assets land.
 
-## v2 Requirements (deferred)
+## v2 Requirements — Content & Custom Domain (active)
 
-### Polish
+### Phase 5 — BLDC post visuals (closes POL-01)
 
-- **POL-01 (partial)**: BLDC pendulum post visuals — see "Open items rolled forward" above
-- ~~**POL-02**~~: Set final `baseURL` once GitHub Pages domain is confirmed — *closed by PATCH-01 for project URL; custom subdomain (`pages.sadegroo.xyz`) parked as `.planning/seeds/custom-domain-pages-sadegroo-xyz.md`*
-- **POL-03**: Author additional posts covering 3D printing and home automation topics
+- [ ] **VIS-01**: Capture rig wide shot (📷). Bench setup with NUCLEO + IHM08M1 + motor + pendulum + Pi visible. Add as `content/posts/bldc-pendulum/rig-overview.jpg` and uncomment the matching `{{< figure >}}` shortcode in `index.md`.
+- [ ] **VIS-02**: Generate sim-vs-hardware overlay plot (📷). Single plot, two traces (Simulink sim + real hardware capture from Simulink Data Inspector) for a swing-up trajectory. Add as `content/posts/bldc-pendulum/sim-vs-hardware.png`.
+- [ ] **VIS-03**: Capture / render competition leaderboard (📷). Screenshot of `competition_results_*.xlsx` or a MATLAB bar chart. Anonymise team-member names. Add as `content/posts/bldc-pendulum/competition-leaderboard.png`.
+- [ ] **VIS-04**: Capture push-recovery clip (🎥). ~5 sec slo-mo of pendulum recovering from a tap. Compress to MP4 (≤ 5 MB). Add as `content/posts/bldc-pendulum/push-recovery.mp4`.
 
-### CI hardening
+### Phase 6 — Second post (partial POL-03)
 
-- **CIv2-01**: Pin Hugo version in workflow to a specific patch release and bump it via Renovate/Dependabot
-- **CIv2-02**: Add a build-only PR check on non-main branches (no deploy)
+- [ ] **POST-01**: Choose topic for second post (3D printing OR home automation). Decision logged in PROJECT.md Key Decisions.
+- [ ] **POST-02**: Create page bundle `content/posts/<slug>/index.md` with title, summary, tags, draft = true, and 4–6 section headings appropriate to the topic.
+- [ ] **POST-03**: Draft full prose (target ~1,500–2,500 words). At least one image (hero or inline). Page-bundle layout from the start.
+- [ ] **POST-04**: Local smoke test (`hugo server -D`); verify post renders cleanly with assets. Flip `draft = false`. Push.
+- [ ] **POST-05**: Verify post is live and discoverable from `/posts/`, and that tag pages list it under the right tag(s).
+
+### Phase 7 — Custom-domain switchover (closes the parked seed)
+
+- [ ] **DOM-01**: Add DNS CNAME record at registrar: `pages → sadegroo.github.io.` (TTL 1h). Verify with `dig +short pages.sadegroo.xyz`.
+- [ ] **DOM-02**: Add `static/CNAME` file containing `pages.sadegroo.xyz` (single line, no protocol).
+- [ ] **DOM-03**: Update `hugo.toml` baseURL: `https://sadegroo.github.io/portfolio/` → `https://pages.sadegroo.xyz/`. Commit + push.
+- [ ] **DOM-04**: GitHub repo settings → Pages → Custom domain → `pages.sadegroo.xyz` → Save. Wait for green DNS-check tick.
+- [ ] **DOM-05**: Tick "Enforce HTTPS" once cert provisions (~5 min after DNS check passes). Verify `https://pages.sadegroo.xyz/` loads with no cert warning and assets resolve. Old project URL should 301-redirect.
+- [ ] **DOM-06**: Archive the seed file `.planning/seeds/custom-domain-pages-sadegroo-xyz.md` once switchover verified live.
+
+### Phase 8 — CI hardening (closes CIv2-01, CIv2-02)
+
+- [ ] **CIH-01**: Add `renovate.json` (or `.github/dependabot.yml`) configured to bump the Hugo version pin in `.github/workflows/deploy.yml` automatically and open PRs for review.
+- [ ] **CIH-02**: Add `.github/workflows/build-check.yml` (or extend `deploy.yml` with branch filter) that builds the site on push to non-main branches and on PRs to `main`, but does NOT deploy. Catches "this branch breaks the build" before merging.
+- [ ] **CIH-03**: Verify both new workflows run cleanly on at least one PR cycle (open a trivial PR, observe build, merge, observe deploy).
+
+### Out of scope for v2 (parked for v3 or beyond)
+
+- **POL-03 (full)**: Multiple additional posts across all topic areas — POST-* covers exactly one in v2; further posts will accumulate naturally without needing milestone wrapping each time.
+- Comments / analytics / RSS customization / multilingual content (still excluded per Core Value).
+- Image processing pipeline (auto-resize, WebP conversion, srcset) — premature optimization for current scale.
 
 ## Out of Scope
 
@@ -85,7 +110,7 @@ These were not in the original v1 plan but landed in the same calendar day, post
 **Coverage:**
 - v1 requirements: 18 total, 18 verified ✅
 - Post-v1 patches: 5 (PATCH-01..05), all live
-- Open: POL-01 partial (visuals), POL-03 (more posts), CIv2-01, CIv2-02
+- v2 requirements: 18 total (VIS-01..04, POST-01..05, DOM-01..06, CIH-01..03), all pending — mapped to phases 5–8
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
@@ -112,7 +137,25 @@ These were not in the original v1 plan but landed in the same calendar day, post
 | PATCH-03 | post-v1 | ✅ Live |
 | PATCH-04 | post-v1 | ✅ Live |
 | PATCH-05 | post-v1 | ✅ Live (visuals partial) |
+| VIS-01 | Phase 5 | Pending |
+| VIS-02 | Phase 5 | Pending |
+| VIS-03 | Phase 5 | Pending |
+| VIS-04 | Phase 5 | Pending |
+| POST-01 | Phase 6 | Pending |
+| POST-02 | Phase 6 | Pending |
+| POST-03 | Phase 6 | Pending |
+| POST-04 | Phase 6 | Pending |
+| POST-05 | Phase 6 | Pending |
+| DOM-01 | Phase 7 | Pending |
+| DOM-02 | Phase 7 | Pending |
+| DOM-03 | Phase 7 | Pending |
+| DOM-04 | Phase 7 | Pending |
+| DOM-05 | Phase 7 | Pending |
+| DOM-06 | Phase 7 | Pending |
+| CIH-01 | Phase 8 | Pending |
+| CIH-02 | Phase 8 | Pending |
+| CIH-03 | Phase 8 | Pending |
 
 ---
 *Requirements defined: 2026-04-28*
-*Last updated: 2026-04-28 after post-v1 session (PATCH-01..05 added; v1 reqs marked verified)*
+*Last updated: 2026-04-28 after v2 milestone start (VIS-*, POST-*, DOM-*, CIH-* mapped to phases 5–8)*
