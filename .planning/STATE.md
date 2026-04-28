@@ -70,6 +70,7 @@ Last activity: 2026-04-28 — Milestone v2 started
 - PaperMod search needs BOTH `outputs.home = JSON` AND a `content/search.md` with `layout = "search"`. JSON alone gives the data; without the content page, the menu link 404s.
 - Hugo dev server applies baseURL locally too. When baseURL is a subpath, run dev server with `--baseURL "http://localhost:1313" --appendPort=false` to get clean local URLs.
 - `choco install` requires elevated shell. Always.
+- **Menu items in `[[menu.main]]` must use `url = "about/"` (no leading slash)** when baseURL is a subpath. PaperMod renders nav as `{{ .URL | absLangURL }}`, and `absLangURL` on a path starting with `/` treats it as site-absolute and drops baseURL's path component — links 404. `pageRef` has the same problem. (Root cause logged in commit `4614140`; details in `hugo.toml` comment block.)
 
 ### Open TODOs (in the BLDC post, non-blocking)
 
