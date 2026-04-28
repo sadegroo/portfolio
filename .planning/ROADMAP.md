@@ -23,7 +23,9 @@
   3. PaperMod is present at `themes/PaperMod` as a registered git submodule with a captured commit SHA in `.gitmodules`
   4. `hugo.toml` declares title "Sadegroo", `languageCode = "en"`, theme `"PaperMod"`, search/tags/about-menu enabled, and a clearly-marked TODO for `baseURL`
   5. `.gitignore` excludes `public/`, `resources/`, and `.hugo_build.lock`
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 01-01-PLAN.md — Install Hugo extended, scaffold site in-place, attach PaperMod submodule, write documented hugo.toml + .gitignore, verify load-bearing files preserved
 
 ### Phase 2: Content Skeleton
 **Goal**: The site has the two content sections and the seed pages a reader would expect to land on.
