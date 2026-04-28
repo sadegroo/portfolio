@@ -28,7 +28,7 @@ progress:
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-28 — Added pushtest.mp4 to BLDC post (with caption that teases the controller failing); wrapped both videos in `<figure>/<figcaption>`
+Last activity: 2026-04-28 — Documented today's session: q01 (scoring figures), q02 (dual-rig rewrite), q03 (hardware photo + push-test video, retroactive). Phase 5 effectively 3/4 complete.
 
 ## Performance Metrics
 
@@ -56,6 +56,21 @@ Last activity: 2026-04-28 — Added pushtest.mp4 to BLDC post (with caption that
 - Install Hugo via `choco install hugo-extended` (Windows native, user preference); requires elevated shell
 - Coarse granularity → 4 phases (Foundation, Content, Deploy, Validate & Handoff)
 - Skipped pre-planning research (stack fully specified in PROJECT.md)
+
+### Session note (2026-04-28, BLDC post visuals push)
+
+Four commits today against the BLDC post — effectively executing Phase 5 piecemeal as quick tasks:
+
+| Commit  | Quick task | What landed |
+|---------|------------|-------------|
+| fd5ff30 | q01        | Scoring figures (Theta + Pi) for the competition section |
+| 520aa18 | q02        | Dual-rig rewrite (stepper + BLDC framing throughout) |
+| ffa66a6 | (q03)      | Hardware wide-shot photo wired in; one garbled sentence rewritten |
+| 8bd39a9 | (q03)      | pushtest.mp4 added; both videos captioned in `<figure>/<figcaption>` |
+
+q01 and q02 were properly scoped through `/gsd-quick`; q03 was retroactive (two follow-up commits made freeform during the same session, documented after the fact). Going forward, any non-trivial post edit should invoke `/gsd-quick` (or `/gsd-quick --discuss`) up front so the PLAN/SUMMARY trail is contemporaneous.
+
+**Phase 5 effective progress: 3 of 4 visuals.** Only the sim-vs-hardware overlay plot remains. ROADMAP success criteria for Phase 5 still name the *originally planned* asset filenames (`rig-overview.jpg`, `competition-leaderboard.png`, `push-recovery.mp4`) — those need reconciling against what actually shipped (`hardware_picture.png`, `scoring_theta.png`+`scoring_pi.png`, `pushtest.mp4`) before Phase 5 can be cleanly verified. Suggested order: (a) ship sim-vs-hardware overlay → (b) reconcile Phase 5 success criteria + verify → (c) close Phase 5 and pick up Phase 6 or Phase 8.
 
 ### Decisions (added 2026-04-28, dual-rig rewrite)
 
@@ -102,7 +117,8 @@ Each remaining item has a brief in the source explaining what to capture; uncomm
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260428-q01 | Add scoring figures (Theta + Pi) to BLDC post competition section | 2026-04-28 | fd5ff30 | [260428-q01-bldc-leaderboard-figures](./quick/260428-q01-bldc-leaderboard-figures/) |
-| 260428-q02 | BLDC post: dual-rig rewrite (one kit, two motor variants — stepper + BLDC) | 2026-04-28 | _pending_ | [260428-q02-dual-rig-rewrite](./quick/260428-q02-dual-rig-rewrite/) |
+| 260428-q02 | BLDC post: dual-rig rewrite (one kit, two motor variants — stepper + BLDC) | 2026-04-28 | 520aa18 | [260428-q02-dual-rig-rewrite](./quick/260428-q02-dual-rig-rewrite/) |
+| 260428-q03 | BLDC post asset wiring (hardware photo + push-test video + caption both clips); retroactively documents commits ffa66a6 + 8bd39a9 | 2026-04-28 | _pending_ | [260428-q03-bldc-post-asset-wiring](./quick/260428-q03-bldc-post-asset-wiring/) |
 
 ### Risks
 
