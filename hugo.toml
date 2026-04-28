@@ -14,6 +14,13 @@ title        = "Sadegroo"
 languageCode = "en"
 theme        = "PaperMod"
 
+# Rewrite root-relative URLs (e.g. /img/foo.png) to absolute URLs prepended
+# with baseURL during build. Required because the site lives under a subpath
+# (/portfolio/) on GitHub Pages — without this, raw <video> tags and figure
+# shortcodes emit /img/... which the browser resolves against the wrong root.
+# Auto-adapts if baseURL ever changes (e.g. switch to pages.sadegroo.xyz).
+canonifyURLs = true
+
 # Enable PaperMod's client-side search by emitting a JSON index for the home page.
 # PaperMod's search template (layouts/_default/search.html in the theme) reads /index.json.
 [outputs]
