@@ -1,7 +1,7 @@
 +++
 title = "Inverted Pendulum Stabilisation with BLDC Motor and STM32"
 date = 2026-04-28
-draft = true
+draft = false
 tags = ["embedded", "control", "STM32", "BLDC", "MATLAB", "digital twin", "education"]
 summary = "A field-oriented BLDC drive, a Simulink digital twin, and a student competition, all built around a 25 cm pendulum that refuses to fall over."
 +++
