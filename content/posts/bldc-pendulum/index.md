@@ -1,5 +1,5 @@
 +++
-title = "Inverted Pendulum Stabilisation with BLDC Motor and STM32"
+title = "One Simulink Model, Two Targets: A Digital Twin for an Inverted Pendulum"
 date = 2026-04-28
 draft = false
 tags = ["embedded", "control", "STM32", "BLDC", "MATLAB", "digital twin", "education"]
@@ -14,8 +14,11 @@ DRAFTING NOTES (for Sander, before publish):
     🎥  = short video / animated GIF opportunity
   Each marker has a short brief on what to capture and why.
 - Hugo `figure` and `youtube` shortcodes are pre-typed but commented out.
-  Drop the asset into `static/img/bldc-pendulum/` (or convert this file to a
-  page bundle later) and uncomment the line.
+  Drop the asset into `content/posts/bldc-pendulum/` (this is a page bundle,
+  assets go next to index.md) and uncomment the line.
+- Shared MATLAB screenshots (also used in the digtwin_labo README) come in
+  via `bash scripts/sync-from-digtwin-labo.sh`. They land here with a
+  `shared-` prefix; do not edit them in place — edit upstream and re-sync.
 - Tone target: confident, concrete, lightly personal. Cut anything that
   sounds like marketing. Add lab anecdotes where I'm being too clean.
 - Prose written for a technically curious general audience, not a control
@@ -31,9 +34,9 @@ What:   The pendulum upright (or close to it), ideally mid-recovery from a
         is fine if uncluttered.
 Why:    The reader sees the *result* in 200 ms before reading a word.
 Spec:   Landscape 16:9, ≥ 1600 px wide. Compress to ~250 KB.
-File:   static/img/bldc-pendulum/hero.png
+File:   content/posts/bldc-pendulum/hero.png
 -->
-{{< figure src="/img/bldc-pendulum/hero.png" alt="The inverted pendulum balancing upright on the BLDC drive" >}}
+{{< figure src="hero.png" alt="The inverted pendulum balancing upright on the BLDC drive" >}}
 
 A 25 cm aluminium rod pivots freely on a brushless motor's shaft. Left alone, it falls over in roughly half a second. With the right control loop running, it stands upright indefinitely, and recovers from a push, a poke, or a deliberate flick. This is the textbook "inverted pendulum" problem, and it has been a favourite of control engineering courses for half a century. What follows is what I built around it.
 
@@ -62,9 +65,9 @@ What:   The full rig on the bench. NUCLEO + IHM08M1 stack visible, motor
 Why:    Anchors the prose. Readers need a mental model of the physical
         thing before the architecture diagram lands.
 Spec:   Landscape, well-lit, ~1400 px wide.
-File:   static/img/bldc-pendulum/rig-overview.jpg
+File:   content/posts/bldc-pendulum/rig-overview.jpg
 -->
-<!-- {{< figure src="/img/bldc-pendulum/rig-overview.jpg" alt="The bench setup: NUCLEO board, motor driver, motor with pendulum arm, and Raspberry Pi" caption="The whole rig fits on a desk." >}} -->
+<!-- {{< figure src="rig-overview.jpg" alt="The bench setup: NUCLEO board, motor driver, motor with pendulum arm, and Raspberry Pi" caption="The whole rig fits on a desk." >}} -->
 
 ## Brain and muscle
 
@@ -74,7 +77,7 @@ The architecture splits the work between two computers, on purpose.
 
 **The Raspberry Pi is the brain.** It runs the higher-level control: an LQR balance controller for keeping the rod upright, plus an energy-based swing-up controller that pumps energy into the system from the rod-down rest state until it's near vertical, where the LQR takes over. Crucially, the Pi runs this as Simulink-generated C code, deployed straight from MATLAB.
 
-This split has a teaching payoff: students can change the controller on the Pi (tune LQR weights, swap in MPC, try a neural net) without recompiling a single line of embedded code. The firmware is a stable, debugged platform; the algorithm work happens where it's comfortable.
+This split has a teaching payoff: students can prototype their own swing-up logic in Simulink and Stateflow, sketching state machines and trying different energy-pumping strategies, without recompiling a single line of embedded firmware. They aren't in an advanced control class. The goal isn't an elegant LQR derivation, it's an empirical recipe that gets the pendulum upright. The firmware stays a stable, debugged platform underneath, and the experimentation happens where it's comfortable.
 
 <!--
 🎥 ARCHITECTURE ANIMATION (optional but high-impact).
@@ -85,10 +88,10 @@ What:   Either an animated SVG or a short screen capture showing the
 Why:    Architecture diagrams in textbooks are dead. A loop showing the
         1 kHz cycle in motion makes the closed-loop nature visceral.
 Spec:   GIF or short MP4, ≤ 2 MB, looping.
-File:   static/img/bldc-pendulum/loop-architecture.gif
+File:   content/posts/bldc-pendulum/loop-architecture.gif
 Alt:    Static SVG block diagram is a fine fallback. Keep it minimal.
 -->
-<!-- {{< figure src="/img/bldc-pendulum/loop-architecture.gif" alt="Animated control loop: pendulum sensors flow up to the Pi, torque commands flow back down to the motor" caption="One full control cycle, 1 kHz." >}} -->
+<!-- {{< figure src="loop-architecture.gif" alt="Animated control loop: pendulum sensors flow up to the Pi, torque commands flow back down to the motor" caption="One full control cycle, 1 kHz." >}} -->
 
 ## The digital twin
 
@@ -108,13 +111,13 @@ Why:    This is the "the digital twin is real" payoff shot. One image
         proves the pitch.
 Spec:   PNG, ~1200 × 700, light background, large legible axis labels.
         Title: "Simulation vs. Hardware: Swing-up trajectory".
-File:   static/img/bldc-pendulum/sim-vs-hardware.png
+File:   content/posts/bldc-pendulum/sim-vs-hardware.png
 -->
-<!-- {{< figure src="/img/bldc-pendulum/sim-vs-hardware.png" alt="Pendulum angle over time: simulation in blue, real hardware in orange, tracking within a few degrees" caption="Simulink against the bench. The gap between them is the homework." >}} -->
+<!-- {{< figure src="sim-vs-hardware.png" alt="Pendulum angle over time: simulation in blue, real hardware in orange, tracking within a few degrees" caption="Simulink against the bench. The gap between them is the homework." >}} -->
 
 ## A teaching lab built around it
 
-The whole stack (firmware, model, controllers, scoring tool) is set up as a course lab. Student teams (named after Greek letters: **Lambda** on the BLDC track, **Rho / Theta / Pi / Omega** on stepper-driven sister rigs) get the framework and a brief: design a controller that swings the pendulum from rest to upright as fast as possible, *and* whose simulation matches the real hardware as closely as possible.
+The whole stack (firmware, model, controllers, scoring tool) is set up as a course lab. Student teams get the framework and a brief: design a controller that swings the pendulum from rest to upright as fast as possible, *and* whose simulation matches the real hardware as closely as possible.
 
 Two metrics, deliberately in tension. You can win on speed by being aggressive with the swing-up energy law, but if your model isn't accurate enough to predict where the rod will end up, you'll overshoot the catch window for the LQR and lose. You can win on fidelity by sandbagging, simulating a slow, conservative trajectory that's easy to match, but then you lose on time. The good teams have to do both: identify the plant accurately *and* push the controller hard.
 
@@ -129,9 +132,9 @@ What:   Either a screenshot of the rendered competition_results .xlsx (or a
 Why:    Concrete proof of the pedagogical loop closing: "the framework
         was used, and here's what came out."
 Spec:   Clean screenshot, light background.
-File:   static/img/bldc-pendulum/competition-leaderboard.png
+File:   content/posts/bldc-pendulum/competition-leaderboard.png
 -->
-<!-- {{< figure src="/img/bldc-pendulum/competition-leaderboard.png" alt="Competition leaderboard ranking student teams by swing-up time and simulation fidelity" caption="Last cohort's results." >}} -->
+<!-- {{< figure src="competition-leaderboard.png" alt="Competition leaderboard ranking student teams by swing-up time and simulation fidelity" caption="Last cohort's results." >}} -->
 
 It's the part of the project I think about most. The hardware and the maths are well understood; teaching is where the value gets made or lost. Wrapping a competition around the digital-twin workflow forces students to take the simulation seriously, because their grade depends on its accuracy, not just on whether their controller eventually works.
 
@@ -152,9 +155,9 @@ Spec:   ≤ 30 sec, ≤ 5 MB after compression. Self-host if practical;
         embedding from YouTube is fine.
 Embed:  Self-hosted MP4: use raw HTML5 <video> tag.
         YouTube/Vimeo: use {{< youtube ID >}} or {{< vimeo ID >}}.
-File:   static/img/bldc-pendulum/swingup.mp4
+File:   content/posts/bldc-pendulum/swingup.mp4
 -->
-<video controls preload="metadata" width="100%" src="/img/bldc-pendulum/swingup.mp4"></video>
+<video controls preload="metadata" width="100%" src="swingup.mp4"></video>
 
 <!--
 🎥 PUSH RECOVERY CLIP (secondary, if you have time).
@@ -165,9 +168,9 @@ What:   ~5 sec. Pendulum balanced upright. A finger comes in from
 Why:    Robustness under disturbance is what separates a balancing demo
         from an actual controller. Showing it makes the point.
 Spec:   Slo-mo MP4, ≤ 5 sec at playback speed.
-File:   static/img/bldc-pendulum/push-recovery.mp4
+File:   content/posts/bldc-pendulum/push-recovery.mp4
 -->
-<!-- <video controls width="100%" src="/img/bldc-pendulum/push-recovery.mp4"></video> -->
+<!-- <video controls width="100%" src="push-recovery.mp4"></video> -->
 
 If you want to play with it without building hardware, the Simulink model runs end-to-end in pure simulation; it's the variant-subsystem trick described above, in reverse. You won't feel the motor sing, but you'll see the same trajectories.
 
@@ -183,12 +186,10 @@ Build instructions, hardware bill of materials, and the lab worksheets live in e
 <!--
 TODO BEFORE PUBLISH:
 1. Confirm both GitHub repo URLs above (or unpublish if either is private).
-2. Capture the hero shot + at least one swing-up clip. Without those the
-   post lands flat.
-3. Replace the date if you publish later than 2026-04-28.
-4. Decide whether to convert this single .md to a page bundle
-   (content/posts/bldc-pendulum/index.md + co-located images), recommended
-   if you end up with more than 3 image files.
-5. Optional: add a footer link to the lab handout PDF if it's something
+2. Replace the date if you publish later than 2026-04-28.
+3. Optional: add a footer link to the lab handout PDF if it's something
    you're happy to share publicly.
+4. Fill the four remaining placeholder visuals (rig wide shot,
+   sim-vs-hardware overlay, leaderboard, push-recovery clip) — uncomment
+   the corresponding {{< figure >}} or <video> line as each lands.
 -->
