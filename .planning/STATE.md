@@ -28,7 +28,7 @@ progress:
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-28 — Milestone v2 started
+Last activity: 2026-04-28 — Quick task 260428-q01: added scoring figures to BLDC post competition section
 
 ## Performance Metrics
 
@@ -79,10 +79,11 @@ Last activity: 2026-04-28 — Milestone v2 started
 - 📷 Rig wide shot
 - 🎥 Architecture animation (optional)
 - 📷 Sim-vs-hardware overlay plot
-- 📷 Competition leaderboard
 - 🎥 Push-recovery clip
 
-Each has a brief in the source explaining what to capture; uncomment the corresponding shortcode/HTML when each asset lands.
+(📷 Competition leaderboard landed 2026-04-28 via quick task 260428-q01 — replaced with `scoring_theta.png` + `scoring_pi.png` from the grading script.)
+
+Each remaining item has a brief in the source explaining what to capture; uncomment the corresponding shortcode/HTML when each asset lands.
 
 ### Parked seeds
 
@@ -91,6 +92,12 @@ Each has a brief in the source explaining what to capture; uncomment the corresp
 ### Blockers
 
 - None
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260428-q01 | Add scoring figures (Theta + Pi) to BLDC post competition section | 2026-04-28 | _pending_ | [260428-q01-bldc-leaderboard-figures](./quick/260428-q01-bldc-leaderboard-figures/) |
 
 ### Risks
 

@@ -122,18 +122,11 @@ Two metrics, deliberately in tension. You can win on speed by being aggressive w
 
 A grading script consumes each team's submission (`.mldatx` files captured from the Simulink Data Inspector during their best hardware run), measures swing-up time, computes the Symmetric Mean Absolute Percentage Error between sim and hardware, and ranks the teams.
 
-<!--
-📷 COMPETITION RESULTS / LEADERBOARD
-What:   Either a screenshot of the rendered competition_results .xlsx (or a
-        MATLAB bar chart of the same data), showing Team Lambda's BLDC
-        result alongside the four stepper teams' times. Anonymise team
-        member names if needed.
-Why:    Concrete proof of the pedagogical loop closing: "the framework
-        was used, and here's what came out."
-Spec:   Clean screenshot, light background.
-File:   content/posts/bldc-pendulum/competition-leaderboard.png
--->
-<!-- {{< figure src="competition-leaderboard.png" alt="Competition leaderboard ranking student teams by swing-up time and simulation fidelity" caption="Last cohort's results." >}} -->
+{{< figure src="scoring_theta.png" alt="Team Theta scoring plot: hardware swings far wider than the simulation predicts" caption="Team Theta — 4.68 s to upright, SMAPE 119." >}}
+
+{{< figure src="scoring_pi.png" alt="Team Pi scoring plot: hardware and simulation traces track closely until the catch" caption="Team Pi — 5.74 s to upright, SMAPE 68." >}}
+
+Last cohort, two teams tied at four points each by hitting opposite ends of the trade-off. Team Theta got the rod up a full second faster, but their digital twin spent the run drifting away from the bench — a SMAPE near 120% means sim and hardware barely agreed on amplitude. Team Pi conceded that second and earned it back on fidelity: the two traces hug each other almost to the catch. Same total score, two opposite engineering bets. The plots above drop straight out of the grading script — no hand-cleanup.
 
 It's the part of the project I think about most. The hardware and the maths are well understood; teaching is where the value gets made or lost. Wrapping a competition around the digital-twin workflow forces students to take the simulation seriously, because their grade depends on its accuracy, not just on whether their controller eventually works.
 
