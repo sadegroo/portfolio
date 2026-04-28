@@ -39,25 +39,31 @@ canonifyURLs = true
 # ----------------------------------------------------------------------------
 # Main navigation menu
 # ----------------------------------------------------------------------------
-# Lower `weight` = further left. Posts is implicit via PaperMod's defaults,
-# but we surface About explicitly per the v1 brief (SCAF-04).
-# The /search/ entry is wired up by PaperMod when JSON output is enabled.
+# Lower `weight` = further left.
+#
+# CRITICAL: `url` values must NOT have a leading slash. PaperMod renders nav
+# links as `{{ .URL | absLangURL }}`, and absLangURL on a path starting with
+# `/` treats it as site-absolute (drops baseURL's path component). With
+# baseURL = https://sadegroo.github.io/portfolio/ that meant `/about/`
+# rendered as https://sadegroo.github.io/about/ (no /portfolio/ → 404).
+# `url = "about/"` (no leading slash) joins correctly to the full baseURL.
+# pageRef has the same problem (it populates .URL with a leading-slash path).
 [[menu.main]]
   identifier = "about"
   name       = "About"
-  url        = "/about/"
+  url        = "about/"
   weight     = 10
 
 [[menu.main]]
   identifier = "posts"
   name       = "Posts"
-  url        = "/posts/"
+  url        = "posts/"
   weight     = 20
 
 [[menu.main]]
   identifier = "search"
   name       = "Search"
-  url        = "/search/"
+  url        = "search/"
   weight     = 30
 
 # ----------------------------------------------------------------------------
