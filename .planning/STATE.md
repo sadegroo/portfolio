@@ -28,7 +28,7 @@ progress:
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-28 — Quick task 260428-q02: dual-rig rewrite of BLDC post (now covers both stepper and BLDC variants)
+Last activity: 2026-04-28 — Wired up `hardware_picture.png` in BLDC post; fixed garbled push-test sentence in "What it looks like running"
 
 ## Performance Metrics
 
@@ -80,14 +80,13 @@ Last activity: 2026-04-28 — Quick task 260428-q02: dual-rig rewrite of BLDC po
 
 ### Open TODOs (in the BLDC post, non-blocking)
 
-4 placeholder visuals still commented out in `content/posts/bldc-pendulum/index.md`:
+3 placeholder visuals still commented out in `content/posts/bldc-pendulum/index.md`:
 
-- 📷 Rig wide shot
 - 🎥 Architecture animation (optional)
 - 📷 Sim-vs-hardware overlay plot
 - 🎥 Push-recovery clip
 
-(📷 Competition leaderboard landed 2026-04-28 via quick task 260428-q01 — replaced with `scoring_theta.png` + `scoring_pi.png` from the grading script.)
+(Landed 2026-04-28: 📷 Competition leaderboard via q01 — `scoring_theta.png` + `scoring_pi.png`; 📷 Rig wide shot via post-q02 fix — `hardware_picture.png` of the BLDC rig.)
 
 Each remaining item has a brief in the source explaining what to capture; uncomment the corresponding shortcode/HTML when each asset lands.
 

@@ -73,7 +73,7 @@ Why:    Anchors the prose. Readers need a mental model of the physical
 Spec:   Landscape, well-lit, ~1400 px wide.
 File:   content/posts/bldc-pendulum/rig-overview.jpg
 -->
-<!-- {{< figure src="rig-overview.jpg" alt="The bench setup: NUCLEO board, motor driver, motor with pendulum arm, and Raspberry Pi" caption="The whole rig fits on a desk." >}} -->
+{{< figure src="hardware_picture.png" alt="The assembled BLDC rig: NUCLEO controller and IHM08M1 driver stacked on the kit base, maxon brushless motor on top, aluminium pendulum arm hanging at rest" caption="The BLDC rig, assembled and at rest." >}}
 
 ## Brain and muscle
 
@@ -139,7 +139,7 @@ It's the part of the project I think about most. The hardware and the maths are 
 
 ## What it looks like running
 
-Numbers don't quite carry the *feel* of the rig in motion (the BLDC variant, in this clip): the way the rod jitters with micro-corrections at the apex, the soft hum of the motor commutating at 16 kHz, the moment a push-test pendulum shoves over and the controller catches it just before commitment.
+Numbers don't quite carry the *feel* of the rig in motion (the BLDC variant, in this clip): the way the rod jitters with micro-corrections at the apex, the soft hum of the motor commutating at 16 kHz, the moment a push test shoves the rod off vertical and the controller catches it before it falls.
 
 <!--
 🎥 SWING-UP CLIP
@@ -189,7 +189,7 @@ TODO BEFORE PUBLISH:
 2. Replace the date if you publish later than 2026-04-28.
 3. Optional: add a footer link to the lab handout PDF if it's something
    you're happy to share publicly.
-4. Fill the remaining placeholder visuals (rig wide shot,
-   sim-vs-hardware overlay, push-recovery clip) — uncomment the
-   corresponding {{< figure >}} or <video> line as each lands.
+4. Fill the remaining placeholder visuals (sim-vs-hardware overlay,
+   push-recovery clip) — uncomment the corresponding {{< figure >}}
+   or <video> line as each lands.
 -->
