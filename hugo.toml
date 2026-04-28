@@ -1,0 +1,70 @@
+# ============================================================================
+# Sadegroo Portfolio — Hugo site configuration
+# ============================================================================
+# Theme: PaperMod (git submodule at themes/PaperMod)
+# Docs:  https://github.com/adityatelange/hugo-PaperMod/wiki
+# ----------------------------------------------------------------------------
+
+# TODO(baseURL): Set to the final published URL once GitHub Pages is enabled.
+#   - For default GH Pages on a user/project repo: "https://sadegroo.github.io/"
+#   - For a custom domain: e.g. "https://sadegroo.dev/"
+# Leave commented out until decided — Hugo will fall back to "/" for local dev.
+# baseURL = "https://sadegroo.github.io/"
+
+title        = "Sadegroo"
+languageCode = "en"
+theme        = "PaperMod"
+
+# Enable PaperMod's client-side search by emitting a JSON index for the home page.
+# PaperMod's search template (layouts/_default/search.html in the theme) reads /index.json.
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# Tag taxonomy is on by default in Hugo, but declare it explicitly so it's
+# discoverable and so future taxonomies (categories, series) slot in cleanly.
+[taxonomies]
+  tag = "tags"
+
+# ----------------------------------------------------------------------------
+# Main navigation menu
+# ----------------------------------------------------------------------------
+# Lower `weight` = further left. Posts is implicit via PaperMod's defaults,
+# but we surface About explicitly per the v1 brief (SCAF-04).
+# The /search/ entry is wired up by PaperMod when JSON output is enabled.
+[[menu.main]]
+  identifier = "about"
+  name       = "About"
+  url        = "/about/"
+  weight     = 10
+
+[[menu.main]]
+  identifier = "posts"
+  name       = "Posts"
+  url        = "/posts/"
+  weight     = 20
+
+[[menu.main]]
+  identifier = "search"
+  name       = "Search"
+  url        = "/search/"
+  weight     = 30
+
+# ----------------------------------------------------------------------------
+# PaperMod theme parameters
+# ----------------------------------------------------------------------------
+[params]
+  # Enable PaperMod's built-in Fuse.js search (requires the JSON output above).
+  ShowShareButtons    = false
+  ShowReadingTime     = true
+  ShowPostNavLinks    = true
+  ShowBreadCrumbs     = true
+  ShowCodeCopyButtons = true
+
+  [params.fuseOpts]
+    isCaseSensitive    = false
+    shouldSort         = true
+    location           = 0
+    distance           = 1000
+    threshold          = 0.4
+    minMatchCharLength = 0
+    keys               = ["title", "permalink", "summary", "content"]
