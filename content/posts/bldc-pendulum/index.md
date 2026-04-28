@@ -16,9 +16,8 @@ DRAFTING NOTES (for Sander, before publish):
 - Hugo `figure` and `youtube` shortcodes are pre-typed but commented out.
   Drop the asset into `content/posts/bldc-pendulum/` (this is a page bundle,
   assets go next to index.md) and uncomment the line.
-- Shared MATLAB screenshots (also used in the digtwin_labo README) come in
-  via `bash scripts/sync-from-digtwin-labo.sh`. They land here with a
-  `shared-` prefix; do not edit them in place — edit upstream and re-sync.
+- MATLAB screenshots that also appear in the digtwin_labo README are
+  duplicated by hand — copy the file into both repos when updating.
 - Tone target: confident, concrete, lightly personal. Cut anything that
   sounds like marketing. Add lab anecdotes where I'm being too clean.
 - Prose written for a technically curious general audience, not a control
