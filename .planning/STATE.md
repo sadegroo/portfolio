@@ -28,7 +28,7 @@ progress:
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-28 — Wired up `hardware_picture.png` in BLDC post; fixed garbled push-test sentence in "What it looks like running"
+Last activity: 2026-04-28 — Added pushtest.mp4 to BLDC post (with caption that teases the controller failing); wrapped both videos in `<figure>/<figcaption>`
 
 ## Performance Metrics
 
@@ -80,13 +80,12 @@ Last activity: 2026-04-28 — Wired up `hardware_picture.png` in BLDC post; fixe
 
 ### Open TODOs (in the BLDC post, non-blocking)
 
-3 placeholder visuals still commented out in `content/posts/bldc-pendulum/index.md`:
+2 placeholder visuals still commented out in `content/posts/bldc-pendulum/index.md`:
 
 - 🎥 Architecture animation (optional)
 - 📷 Sim-vs-hardware overlay plot
-- 🎥 Push-recovery clip
 
-(Landed 2026-04-28: 📷 Competition leaderboard via q01 — `scoring_theta.png` + `scoring_pi.png`; 📷 Rig wide shot via post-q02 fix — `hardware_picture.png` of the BLDC rig.)
+(Landed 2026-04-28: 📷 Competition leaderboard via q01 — `scoring_theta.png` + `scoring_pi.png`; 📷 Rig wide shot — `hardware_picture.png` of the BLDC rig; 🎥 Push test — `pushtest.mp4`, the original "push-recovery" placeholder repurposed since the actual clip ends with the controller failing rather than recovering.)
 
 Each remaining item has a brief in the source explaining what to capture; uncomment the corresponding shortcode/HTML when each asset lands.
 

@@ -156,20 +156,27 @@ Embed:  Self-hosted MP4: use raw HTML5 <video> tag.
         YouTube/Vimeo: use {{< youtube ID >}} or {{< vimeo ID >}}.
 File:   content/posts/bldc-pendulum/swingup.mp4
 -->
-<video controls preload="metadata" width="100%" src="swingup.mp4"></video>
+<figure>
+  <video controls preload="metadata" width="100%" src="swingup.mp4"></video>
+  <figcaption>Swing-up: rest to upright, then hold.</figcaption>
+</figure>
+
+The swing-up is the textbook trick. The honest question is what happens once you start poking — and how hard you can poke before the LQR runs out of authority.
 
 <!--
-🎥 PUSH RECOVERY CLIP (secondary, if you have time).
-What:   ~5 sec. Pendulum balanced upright. A finger comes in from
-        off-frame, gives the rod a sharp tap. Rod jumps, motor whirrs,
-        rod settles back to vertical. Slo-mo (120 fps → 30 fps playback)
-        is gorgeous here.
+🎥 PUSH TEST CLIP
+What:   Pendulum balanced upright. Hand comes in from off-frame, gives
+        the rod a tap. Recovery. Then a harder tap. Then one shove too
+        many — controller can't catch it, rod swings down.
 Why:    Robustness under disturbance is what separates a balancing demo
-        from an actual controller. Showing it makes the point.
-Spec:   Slo-mo MP4, ≤ 5 sec at playback speed.
-File:   content/posts/bldc-pendulum/push-recovery.mp4
+        from an actual controller. Showing where the controller fails
+        is more honest (and more compelling) than only showing recovery.
+File:   content/posts/bldc-pendulum/pushtest.mp4
 -->
-<!-- <video controls width="100%" src="push-recovery.mp4"></video> -->
+<figure>
+  <video controls preload="metadata" width="100%" src="pushtest.mp4"></video>
+  <figcaption>Push test: a finger tap, a harder one, and finally one shove too many.</figcaption>
+</figure>
 
 If you want to play with it without building hardware, the Simulink model runs end-to-end in pure simulation; it's the variant-subsystem trick described above, in reverse. You won't feel the motor sing, but you'll see the same trajectories.
 
@@ -189,7 +196,6 @@ TODO BEFORE PUBLISH:
 2. Replace the date if you publish later than 2026-04-28.
 3. Optional: add a footer link to the lab handout PDF if it's something
    you're happy to share publicly.
-4. Fill the remaining placeholder visuals (sim-vs-hardware overlay,
-   push-recovery clip) — uncomment the corresponding {{< figure >}}
-   or <video> line as each lands.
+4. Fill the remaining placeholder visual (sim-vs-hardware overlay) —
+   uncomment the corresponding {{< figure >}} line when it lands.
 -->
