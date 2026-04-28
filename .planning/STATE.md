@@ -28,7 +28,7 @@ progress:
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-28 — Documented today's session: q01 (scoring figures), q02 (dual-rig rewrite), q03 (hardware photo + push-test video, retroactive). Phase 5 effectively 3/4 complete.
+Last activity: 2026-04-28 — Fixed stale firmware repo URLs in BLDC post (BLDC + stepper now point to NUCLEO-F401RE-invpend-SPIslave-* repos); digtwin_labo URL still pending confirmation.
 
 ## Performance Metrics
 
