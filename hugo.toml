@@ -5,11 +5,10 @@
 # Docs:  https://github.com/adityatelange/hugo-PaperMod/wiki
 # ----------------------------------------------------------------------------
 
-# TODO(baseURL): Set to the final published URL once GitHub Pages is enabled.
-#   - For default GH Pages on a user/project repo: "https://sadegroo.github.io/"
-#   - For a custom domain: e.g. "https://sadegroo.dev/"
-# Leave commented out until decided — Hugo will fall back to "/" for local dev.
-# baseURL = "https://sadegroo.github.io/"
+# Live at the GitHub Pages project URL (sadegroo/portfolio is a project repo,
+# not a user-site repo, so the path includes /portfolio/).
+# To switch to a custom domain later, see .planning/seeds/custom-domain-pages-sadegroo-xyz.md
+baseURL = "https://sadegroo.github.io/portfolio/"
 
 title        = "Sadegroo"
 languageCode = "en"
