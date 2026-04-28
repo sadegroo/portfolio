@@ -28,7 +28,7 @@ progress:
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-28 — Quick task 260428-q01: added scoring figures to BLDC post competition section
+Last activity: 2026-04-28 — Quick task 260428-q02: dual-rig rewrite of BLDC post (now covers both stepper and BLDC variants)
 
 ## Performance Metrics
 
@@ -56,6 +56,12 @@ Last activity: 2026-04-28 — Quick task 260428-q01: added scoring figures to BL
 - Install Hugo via `choco install hugo-extended` (Windows native, user preference); requires elevated shell
 - Coarse granularity → 4 phases (Foundation, Content, Deploy, Validate & Handoff)
 - Skipped pre-planning research (stack fully specified in PROJECT.md)
+
+### Decisions (added 2026-04-28, dual-rig rewrite)
+
+- **The BLDC pendulum post covers both rigs (stepper + BLDC), not just BLDC.** The framework supports two hardware variants of the STEVAL-EDUKIT01: the stock stepper rig (L6474, 1 kHz acceleration cmd) and the BLDC rig (FOC on IHM08M1, 16 kHz torque cmd). Both share the kit frame, NUCLEO-F401RE, pendulum encoder, Pi/Simulink/grading layer. Future content edits should preserve this framing — don't accidentally re-flatten to "BLDC-only."
+- **Title kept as "One Simulink Model, Two Targets."** "Two Targets" = simulation + hardware (the variant-subsystem deployment trick). The stepper-vs-BLDC choice is a *second* variant switch, layered underneath. Clarifying parenthetical lives in the digital-twin section.
+- **Stepper firmware repo (`sadegroo/invpend_stepper`) listed alongside `invpend_BLDC` and `digtwin_labo`** in the post's "Try it / source" section. URL/visibility still has a TODO marker — confirm before any push to publish.
 
 ### Decisions (added post-v1, this session)
 
@@ -97,7 +103,8 @@ Each remaining item has a brief in the source explaining what to capture; uncomm
 
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
-| 260428-q01 | Add scoring figures (Theta + Pi) to BLDC post competition section | 2026-04-28 | _pending_ | [260428-q01-bldc-leaderboard-figures](./quick/260428-q01-bldc-leaderboard-figures/) |
+| 260428-q01 | Add scoring figures (Theta + Pi) to BLDC post competition section | 2026-04-28 | fd5ff30 | [260428-q01-bldc-leaderboard-figures](./quick/260428-q01-bldc-leaderboard-figures/) |
+| 260428-q02 | BLDC post: dual-rig rewrite (one kit, two motor variants — stepper + BLDC) | 2026-04-28 | _pending_ | [260428-q02-dual-rig-rewrite](./quick/260428-q02-dual-rig-rewrite/) |
 
 ### Risks
 
