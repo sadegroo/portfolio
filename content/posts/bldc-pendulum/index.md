@@ -186,17 +186,15 @@ The repositories that make up the project are public:
 
 - **Firmware (BLDC variant):** [`sadegroo/NUCLEO-F401RE-invpend-SPIslave-BLDC`](https://github.com/sadegroo/NUCLEO-F401RE-invpend-SPIslave-BLDC)
 - **Firmware (stepper variant):** [`sadegroo/NUCLEO-F401RE-invpend-SPIslave-stepper`](https://github.com/sadegroo/NUCLEO-F401RE-invpend-SPIslave-stepper)
-- **MATLAB framework + digital twin:** [`sadegroo/digtwin_labo`](https://github.com/sadegroo/digtwin_labo) <!-- TODO: confirm repo URL/visibility before publishing -->
+- **MATLAB framework + digital twin:** [`sadegroo/digtwin_labo`](https://github.com/sadegroo/digtwin_labo)
 
 Build instructions, hardware bill of materials, and the lab worksheets live in each repo's README. Both firmware variants use a modern CMake build (no STM32CubeIDE required), and the MATLAB project opens with a single `digtwin_labo.prj` double-click.
 
 <!--
 TODO BEFORE PUBLISH:
-1. Confirm the `digtwin_labo` repo URL/visibility (the two firmware repo
-   URLs were confirmed 2026-04-28).
-2. Replace the date if you publish later than 2026-04-28.
-3. Optional: add a footer link to the lab handout PDF if it's something
+1. Replace the date if you publish later than 2026-04-28.
+2. Optional: add a footer link to the lab handout PDF if it's something
    you're happy to share publicly.
-4. Fill the remaining placeholder visual (sim-vs-hardware overlay) —
+3. Fill the remaining placeholder visual (sim-vs-hardware overlay) —
    uncomment the corresponding {{< figure >}} line when it lands.
 -->

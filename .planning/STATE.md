@@ -28,7 +28,7 @@ progress:
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-28 — Fixed stale firmware repo URLs in BLDC post (BLDC + stepper now point to NUCLEO-F401RE-invpend-SPIslave-* repos); digtwin_labo URL still pending confirmation.
+Last activity: 2026-04-28 — All three repo URLs in the BLDC post confirmed and TODO markers cleared.
 
 ## Performance Metrics
 
