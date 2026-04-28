@@ -6,22 +6,27 @@ A personal portfolio and project blog for Sander ("sadegroo") covering embedded 
 
 ## Core Value
 
-Pushing to `main` publishes the site at `sadegroo.github.io` — zero manual build steps, zero hosting cost. Everything else (themes, search, tags) is in service of that one loop working reliably.
+Pushing to `main` publishes the site at `https://sadegroo.github.io/portfolio/` — zero manual build steps, zero hosting cost. Everything else (themes, search, tags) is in service of that one loop working reliably.
 
 ## Requirements
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Hugo extended toolchain installed; `sadegroo/portfolio` scaffolded as a Hugo site, PaperMod added as submodule, `hugo.toml` configured, README + LICENSE preserved — *v1 Phase 1*
+- ✓ Two content sections live: `posts/` and `projects/`, with search, tags, and an About page in the main menu — *v1 Phase 2 + post-v1 PATCH-02*
+- ✓ GitHub Actions workflow builds on push to `main` and deploys to the `gh-pages` branch via `peaceiris/actions-gh-pages` — *v1 Phase 3*
+- ✓ `.gitignore` excludes `public/`, `resources/`, `.hugo_build.lock`; README + LICENSE preserved verbatim through scaffolding — *v1 Phase 1*
+- ✓ `hugo server` builds cleanly; site live at https://sadegroo.github.io/portfolio/ — *v1 Phase 4*
+- ✓ `baseURL` set to project-repo URL; site renders with correct canonical / RSS / asset paths — *post-v1 PATCH-01 + PATCH-04*
+- ✓ `/search/` route resolves with live search index (PaperMod recipe: JSON output + `content/search.md`) — *post-v1 PATCH-02*
+- ✓ Inline HTML allowed in markdown (Goldmark `unsafe = true`) so `<video>` and similar tags survive the renderer — *post-v1 PATCH-03*
+- ✓ First real post published: "One Simulink Model, Two Targets: A Digital Twin for an Inverted Pendulum" with hero image and swing-up clip; converted to a page bundle — *post-v1 PATCH-05*
 
 ### Active
 
-- [ ] Hugo extended toolchain installed and the existing `sadegroo/portfolio` repo scaffolded as a Hugo site (PaperMod added as submodule, `hugo.toml` configured, README + LICENSE preserved)
-- [ ] Two content sections live: `posts/` (writeups) and `projects/` (per-project index pages), with search, tags, and an about page enabled
-- [ ] GitHub Actions workflow at `.github/workflows/deploy.yml` builds with Hugo extended on push to `main` and deploys to the `gh-pages` branch via `peaceiris/actions-gh-pages`
-- [ ] Initial content seeded: an `about.md` placeholder and one draft post `content/posts/bldc-pendulum.md` with the agreed section skeleton (Overview, Hardware Setup, Control Architecture, Results, Source Code)
-- [ ] Repo hygiene in place: `.gitignore` excludes `public/`, `resources/`, `.hugo_build.lock`; existing README + LICENSE preserved untouched
-- [ ] `hugo server` builds the site cleanly with no errors (smoke test before handoff)
+- [ ] Fill the 4 remaining placeholder visuals in the BLDC post (rig wide shot, sim-vs-hardware overlay, leaderboard, push-recovery clip) — POL-01 partial
+- [ ] Author additional posts (3D printing, home automation, etc.) — POL-03
+- [ ] When DNS for `sadegroo.xyz` is configured, switch to custom subdomain `pages.sadegroo.xyz` — see `.planning/seeds/custom-domain-pages-sadegroo-xyz.md`
 
 ### Out of Scope
 
@@ -51,12 +56,18 @@ Pushing to `main` publishes the site at `sadegroo.github.io` — zero manual bui
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Use Hugo + PaperMod stock theme | Fastest path to a polished portfolio with search/tags built in; user prescribed it | — Pending |
-| Deploy via `peaceiris/actions-gh-pages` to `gh-pages` branch | De-facto standard for Hugo on GitHub Pages; minimal config; aligns with README intent | — Pending |
-| Scaffold in-place at `C:/Users/u0130154/repos/portfolio` rather than `~/portfolio` | Repo is already cloned here; avoids duplicate clone; user confirmed | — Pending |
-| Install Hugo via `choco` (not winget/scoop) | User preference on Windows | — Pending |
-| Skip pre-planning research | Stack is fully prescribed; PaperMod + Hugo + GH Pages is well-trodden ground; research would add tokens with no information gain | — Pending |
-| Do NOT push or enable Pages remotely | User explicitly retains control of remote operations | — Pending |
+| Use Hugo + PaperMod stock theme | Fastest path to a polished portfolio with search/tags built in; user prescribed it | ✓ Good |
+| Deploy via `peaceiris/actions-gh-pages` to `gh-pages` branch | De-facto standard for Hugo on GitHub Pages; minimal config; aligns with README intent | ✓ Good |
+| Scaffold in-place at `C:/Users/u0130154/repos/portfolio` rather than `~/portfolio` | Repo is already cloned here; avoids duplicate clone; user confirmed | ✓ Good |
+| Install Hugo via `choco` (not winget/scoop) | User preference on Windows | ✓ Good |
+| Skip pre-planning research | Stack is fully prescribed; PaperMod + Hugo + GH Pages is well-trodden ground; research would add tokens with no information gain | ✓ Good |
+| Do NOT push or enable Pages remotely (during v1) | User explicitly retains control of remote operations | ✓ Good (relaxed post-v1: user authorized push for content patches and explicit ones) |
+| `canonifyURLs = true` in hugo.toml | Site lives at `/portfolio/` subpath. Without it, `figure` shortcodes and raw HTML asset paths emit root-relative URLs and 404 in production. Auto-adapts when baseURL changes (e.g. to custom domain). | ✓ Good (post-v1) |
+| Goldmark `unsafe = true` | Required for inline `<video>` and other raw HTML in markdown to survive the renderer. Safe at this scale (no third-party markdown ingestion). | ✓ Good (post-v1) |
+| Page-bundle layout for posts that own assets | Co-locates post + media in one directory. URL stays the same; asset paths in markdown become bundle-relative; `git rm -r` cleans up everything when retiring a post. | ✓ Good (post-v1, applied to BLDC post) |
+| Plain duplication for assets shared with companion repos | Personal-portfolio scale doesn't justify sync infra. Sync script was prototyped and reverted. | ✓ Good (post-v1) |
+| Stage live URL: project-repo first, custom subdomain later | Validate the deploy pipeline at the project URL before adding the DNS variable. Custom subdomain (`pages.sadegroo.xyz`) parked as a seed. | ✓ Good (post-v1) |
+| Lead post titles with the differentiator, not the hardware | "One Simulink Model, Two Targets: A Digital Twin for an Inverted Pendulum" beats "Inverted Pendulum Stabilisation with BLDC Motor and STM32" because the codegen / digital-twin angle is what's distinctive. | ✓ Good (post-v1, applied to BLDC post) |
 
 ## Evolution
 
@@ -76,4 +87,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-28 after initialization*
+*Last updated: 2026-04-28 after post-v1 session (BLDC publish + patches; see `.planning/reports/20260428-session-report.md`)*
