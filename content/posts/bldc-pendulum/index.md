@@ -35,7 +35,7 @@ Why:    The reader sees the *result* in 200 ms before reading a word.
 Spec:   Landscape 16:9, ≥ 1600 px wide. Compress to ~250 KB.
 File:   content/posts/bldc-pendulum/hero.png
 -->
-{{< figure src="hero.png" alt="The inverted pendulum balancing upright on the BLDC drive" >}}
+{{< figure src="hero.png" alt="The inverted pendulum balancing upright on the BLDC drive on the open campus day KU Leuven @ Geel, 25 April 2026" >}}
 
 A 25 cm aluminium rod pivots freely on a vertical motor shaft. Left alone, it falls over in roughly half a second. With the right control loop running, it stands upright indefinitely, and recovers from a push. This is the textbook "inverted pendulum" problem, and it has been a favourite of control engineering courses for half a century. What follows is what I built around it.
 
@@ -135,17 +135,17 @@ Two metrics, deliberately in tension. You can win on speed by being aggressive w
 
 A grading script consumes each team's submission (`.mldatx` files captured from the Simulink Data Inspector during their best hardware run), measures swing-up time, computes the Symmetric Mean Absolute Percentage Error between sim and hardware, and ranks the teams.
 
-{{< figure src="scoring_theta.png" alt="Team Theta scoring plot, stepper rig: hardware swings far wider than the simulation predicts" caption="Team Theta (stepper rig): 4.68 s to upright, SMAPE 119." >}}
+{{< figure src="scoring_theta.png" alt="Team Theta scoring plot, stepper rig: hardware swings far wider than the simulation predicts" caption="Team Theta (stepper rig): 4.68 s to upright, SMAPE 119%." >}}
 
-{{< figure src="scoring_pi.png" alt="Team Pi scoring plot, stepper rig: hardware and simulation traces track closely until the catch" caption="Team Pi (stepper rig): 5.74 s to upright, SMAPE 68." >}}
+{{< figure src="scoring_pi.png" alt="Team Pi scoring plot, stepper rig: hardware and simulation traces track closely until the catch" caption="Team Pi (stepper rig): 5.74 s to upright, SMAPE 68%." >}}
 
-Last cohort, two teams ran the stepper rig and tied at four points each by hitting opposite ends of the trade-off. Team Theta got the rod up a full second faster, but their digital twin spent the run drifting away from the bench; a SMAPE near 120% means sim and hardware barely agreed on amplitude. Team Pi conceded that second and earned it back on fidelity: the two traces hug each other almost to the catch. Same total score, two opposite engineering bets. The plots above are unedited output from the grading script. The BLDC rig produces the same shape of plot; the difference is the y-axis scale and the kind of swing-up time you can chase.
+Last cohort, two teams ran the stepper rig and tied at four points each by hitting opposite ends of the trade-off. Team Theta got the rod up a full second faster, but their digital twin spent the run drifting away from the real system (they did not spend as much time tuning the model parameters); a SMAPE near 120% means sim and hardware barely agreed on amplitude. Team Pi conceded that second and earned it back on accuracy: the two traces hug each other almost to the catch. Same total score, two opposite engineering bets. The plots above are unedited output from the grading script. The BLDC rig produces the same shape of plot; the difference is the y-axis scale and the kind of swing-up time you can chase.
 
 It's the part of the project I think about most. The hardware and the maths are well understood; teaching is where the value gets made or lost. Wrapping a competition around the digital-twin workflow forces students to take the simulation seriously, because their grade depends on its accuracy, not just on whether their controller eventually works.
 
 ## What it looks like running
 
-Numbers don't quite carry the *feel* of the rig in motion (the BLDC variant, in this clip): the way the rod jitters with micro-corrections at the apex, the soft hum of the motor commutating at 16 kHz, the moment a push test shoves the rod off vertical and the controller catches it before it falls.
+Numbers don't quite carry the *feel* of the rig in motion (the BLDC variant, in this clip): the way the rod jitters with micro-corrections at the apex, the soft hum of the motor commutating at 16 kHz, the moment a push test shoves the rod off vertical and the controller catches it before it falls. 
 
 <!--
 🎥 SWING-UP CLIP
@@ -167,13 +167,14 @@ File:   content/posts/bldc-pendulum/swingup.mp4
   <figcaption>Swing-up: rest to upright, then hold.</figcaption>
 </figure>
 
+The portability of the rig is illustrated by means of demonstrating it on my kitchen table.
+
 <figure>
   <video controls preload="metadata" width="100%" src="stepper_swingup.mp4"></video>
-  <figcaption>Same swing-up on the stepper rig.</figcaption>
+  <figcaption>Same swing-up on the stepper rig. Uses empirical controller and takes longer</figcaption>
 </figure>
 
-The swing-up is the textbook trick. The honest question is how hard you can poke the rod before the LQR runs out of authority.
-
+How hard you can poke the rod before the LQR runs out of authority?
 <!--
 🎥 PUSH TEST CLIP
 What:   Pendulum balanced upright. Hand comes in from off-frame, gives
@@ -197,6 +198,7 @@ And here's the same loop in pure simulation. Swing-up trigger, Mechanics Explore
 </figure>
 
 If you want to try it yourself, the Simulink model runs end-to-end on the same controller, gains, and code path as on hardware. You won't feel the motor sing, but the trajectories will match.
+You will need MATLAB, Simulink and some add-ons. It's free if you are a student at KU Leuven, but you may not bee so lucky.
 
 ## Try it / source
 
