@@ -37,19 +37,19 @@ File:   content/posts/bldc-pendulum/hero.png
 -->
 {{< figure src="hero.png" alt="The inverted pendulum balancing upright on the BLDC drive" >}}
 
-A 25 cm aluminium rod pivots freely on a motor shaft. Left alone, it falls over in roughly half a second. With the right control loop running, it stands upright indefinitely, and recovers from a push, a poke, or a deliberate flick. This is the textbook "inverted pendulum" problem, and it has been a favourite of control engineering courses for half a century. What follows is what I built around it.
+A 25 cm aluminium rod pivots freely on a vertical motor shaft. Left alone, it falls over in roughly half a second. With the right control loop running, it stands upright indefinitely, and recovers from a push. This is the textbook "inverted pendulum" problem, and it has been a favourite of control engineering courses for half a century. What follows is what I built around it.
 
 ## Why a pendulum, of all things?
 
-The inverted pendulum is the *Hello, World!* of nonlinear control. It's unstable in open loop, easy to model, hard to stabilise without using everything you know. Sensors are cheap, hardware fits on a desk, and the failure mode is dramatic but not destructive: the rod just falls over. It hits the sweet spot where the theory is rich enough to teach, the hardware is cheap enough to scale, and the demo is satisfying enough to remember.
+The inverted pendulum is the *Hello, World!* of nonlinear control. The upright position is an unstable equilibrium point, and with a well-designed controller, we can bring the system to that point and keep it there.  The hardware is simple,  fits on a desk, and the failure mode is dramatic but not destructive: the rod just falls over, but might swing around vigorously a few times as the controller tries to fight gravity. The inverted pendulum sytem strikes a balance where the theory is rich enough to teach, the hardware is cheap enough to scale, and the demo is satisfying enough to remember.
 
-What's less common is building the whole stack around it: not just a controller that works, but a teaching framework that covers symbolic dynamics, simulation, state estimation, embedded firmware, and a way to grade students on how well they pulled it off. That's what this project is.
+What's less common is building the whole stack around it: not just a controller that works, but a teaching framework that covers symbolic dynamics, physical modelling and simulation, state estimation, embedded firmware, and a way to grade students on how well they pulled it off. That's what this project is.
 
 ## The setup: one kit, two rigs
 
 The mechanics start from ST's [STEVAL-EDUKIT01](https://www.st.com/en/evaluation-tools/steval-edukit01.html), an off-the-shelf rotary inverted pendulum kit. The kit ships with a stepper motor and an L6474 driver, and that "stock" rig is the one most students get hands-on with first. I built a second variant that swaps the actuator for a brushless DC motor — a maxon ECX FLAT 42 M (24 V, 8 pole pairs) on ST's X-NUCLEO-IHM08M1 power board. Both versions share the same NUCLEO-F401RE controller, the same kit frame, and the same 2400 CPR optical encoder on the pendulum joint. The BLDC variant adds a second encoder (2048 CPR, on the motor shaft) for field-oriented commutation; the stepper doesn't need it — microsteps give it position open-loop.
 
-The two rigs aren't redundant; they're a pedagogical pair. The stepper is the cheap, simple, "it just works" option that ships in the box. The BLDC is the higher-bandwidth, closer-to-a-real-servo option, with all of the FOC plumbing that implies. Above the firmware, the framework — Pi, Simulink model, grading — treats them identically.
+The two rigs aren't redundant; they're a pedagogical pair. The stepper is the cheap, simple, "it just works" option that ships in the box. The BLDC is the higher-bandwidth, closer-to-a-real-servo option. A final perk of the BLDC setup is the use of slip ring contacts in the pendulum encoder wire, which allows the motor shaft to rotate freely and indefinitely. Above the firmware, the framework — Pi, Simulink model, grading — treats them identically.
 
 |                  | Stepper rig                    | BLDC rig                                 |
 |------------------|--------------------------------|------------------------------------------|
@@ -60,7 +60,7 @@ The two rigs aren't redundant; they're a pedagogical pair. The stepper is the ch
 | Pendulum encoder | 2400 CPR (shared)              | 2400 CPR (shared)                        |
 | Firmware repo    | [stepper firmware →](https://github.com/sadegroo/NUCLEO-F401RE-invpend-SPIslave-stepper) | [BLDC firmware →](https://github.com/sadegroo/NUCLEO-F401RE-invpend-SPIslave-BLDC) |
 
-That's it for hardware: a microcontroller, a driver board, a motor (your pick), an encoder or two, and a Raspberry Pi sitting next to it as the brains.
+That's it for hardware: a microcontroller, a driver board, a motor, an encoder or two, and a Raspberry Pi sitting next to it as the brains.
 
 <!--
 📷 HARDWARE WIDE SHOT
@@ -79,11 +79,11 @@ File:   content/posts/bldc-pendulum/rig-overview.jpg
 
 The architecture splits the work between two computers, on purpose.
 
-**The STM32 is the muscle.** Its job is "make the motor do exactly what you ask for, and don't catch fire." On the BLDC rig that means ST's Motor Control SDK running field-oriented control at 16 kHz, with shunt-resistor current sensing on the IHM08M1 and PI loops on the q- and d-axis currents — the Pi sends torque commands. On the stepper rig it's simpler: the L6474 handles current regulation in hardware, and the firmware exposes an acceleration command at 1 kHz instead. Either way, the firmware itself doesn't know there's a pendulum at all. Every cycle it bundles the latest pendulum encoder reading into an 8-byte SPI packet, ships it to the Pi, and waits for the next command back. Packets are CRC-protected; five corrupted in a row and the motor stops.
+**The STM32 is the muscle.** Its job is "make the motor do exactly what you ask for, and don't catch fire." On the BLDC rig that means ST's Motor Control SDK running field-oriented control at 16 kHz, with shunt-resistor current sensing on the IHM08M1 and PI loops on the q- and d-axis currents The Pi sends torque commands and receives encoder angles. On the stepper rig it's simpler: the L6474 handles current regulation in hardware, and the firmware exposes an acceleration command at 1 kHz instead. Either way, the firmware itself doesn't know there's a pendulum at all. Every cycle it bundles the latest pendulum encoder reading into an 8-byte SPI packet, ships it to the Pi, and waits for the next command back. Packets are CRC-protected; five corrupted in a row and the motor stops.
 
 **The Raspberry Pi is the brain.** It runs the higher-level control: an LQR balance controller for keeping the rod upright, plus an energy-based swing-up controller that pumps energy into the system from the rod-down rest state until it's near vertical, where the LQR takes over. Crucially, the Pi runs this as Simulink-generated C code, deployed straight from MATLAB.
 
-This split has a teaching payoff: students can prototype their own swing-up logic in Simulink and Stateflow, sketching state machines and trying different energy-pumping strategies, without recompiling a single line of embedded firmware. They aren't in an advanced control class. The goal isn't an elegant LQR derivation, it's an empirical recipe that gets the pendulum upright. The firmware stays a stable, debugged platform underneath, and the experimentation happens where it's comfortable.
+This split has a teaching payoff: students can prototype their own swing-up logic in Simulink and Stateflow, sketching state machines and trying different control strategies, without recompiling a single line of embedded firmware. THey can also change the model structure and parameters, if they decide it does not sufficiently represent reality.
 
 <!--
 🎥 ARCHITECTURE ANIMATION (optional but high-impact).
@@ -103,7 +103,7 @@ Alt:    Static SVG block diagram is a fine fallback. Keep it minimal.
 
 Here's the part I'm proudest of: the *same Simulink model* drives both the simulation and the real hardware.
 
-The model contains the pendulum's nonlinear equations of motion (derived symbolically with Euler-Lagrange, cached and reused), an Unscented Kalman Filter that reconstructs the full 4-D state (two angles plus two angular velocities) from the encoder readings, and the LQR + swing-up controllers. The simulated plant itself is built in Simscape Multibody — joints, transforms, and rigid bodies that mirror the bench geometry.
+The model contains the pendulum's nonlinear equations of motion (implicit in Simulink, but also derived symbolically with Euler-Lagrange for controller and observer design), an Unscented Kalman Filter that reconstructs the full 4-D state (two angles plus two angular velocities) from the encoder readings, and the LQR + swing-up controllers. The simulated plant itself is built in Simscape Multibody — joints, transforms, and rigid bodies that mirror the bench geometry.
 
 {{< figure src="simulink_multibody_model.png" alt="Simscape Multibody block diagram of the pendulum: revolute joints, rigid transforms, and brick body blocks wired into state outputs" caption="The simulated plant in Simscape Multibody — same geometry, same joints, same dynamics as the bench rig." >}}
 
@@ -111,7 +111,7 @@ A Simulink "variant subsystem" sits in the middle: when you simulate, it routes 
 
 {{< figure src="simulink_variant_blocks.png" alt="The variant subsystem in Simulink: top branch labelled SIMULATION wraps a 3D pendulum render; bottom branch labelled PHYSICAL SYSTEM wraps the same render. Both branches have identical input and output ports" caption="The variant subsystem itself: top = simulated plant; bottom = SPI bridge to the real bench. Same ports, same controller upstream." >}}
 
-In practice this means: tune the controller in simulation, hit one button, and the same controller is now running on the Pi commanding the real motor. No translation step. No "well it worked in MATLAB but…" The same blocks, the same gains, the same code path.
+In practice this means: tune the controller in simulation, hit one button, and the same controller is now running on the Pi commanding the real motor. No manual, impractical, and error-prone translation step.
 
 <!--
 📷 SIDE-BY-SIDE: SIM vs. HARDWARE
@@ -165,6 +165,11 @@ File:   content/posts/bldc-pendulum/swingup.mp4
 <figure>
   <video controls preload="metadata" width="100%" src="swingup.mp4"></video>
   <figcaption>Swing-up: rest to upright, then hold.</figcaption>
+</figure>
+
+<figure>
+  <video controls preload="metadata" width="100%" src="stepper_swingup.mp4"></video>
+  <figcaption>Same swing-up on the stepper rig.</figcaption>
 </figure>
 
 The swing-up is the textbook trick. The honest question is what happens once you start poking — and how hard you can poke before the LQR runs out of authority.
