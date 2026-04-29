@@ -198,7 +198,7 @@ And here's the same loop in pure simulation. Swing-up trigger, Mechanics Explore
 </figure>
 
 If you want to try it yourself, the Simulink model runs end-to-end on the same controller, gains, and code path as on hardware. You won't feel the motor sing, but the trajectories will match.
-You will need MATLAB, Simulink and some add-ons. It's free if you are a student at KU Leuven, but you may not bee so lucky.
+You will need MATLAB, Simulink and some add-ons. It's free if you are a student at KU Leuven, but you may not be so lucky.
 
 ## Try it / source
 
