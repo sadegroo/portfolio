@@ -43,11 +43,11 @@ A 25 cm aluminium rod pivots freely on a vertical motor shaft. Left alone, it fa
 
 The inverted pendulum is the *Hello, World!* of nonlinear control. The upright position is an unstable equilibrium point, and with a well-designed controller, we can bring the system to that point and keep it there.  The hardware is simple,  fits on a desk, and the failure mode is dramatic but not destructive: the rod just falls over, but might swing around vigorously a few times as the controller tries to fight gravity. The inverted pendulum sytem strikes a balance where the theory is rich enough to teach, the hardware is cheap enough to scale, and the demo is satisfying enough to remember.
 
-What's less common is building the whole stack around it: not just a controller that works, but a teaching framework that covers symbolic dynamics, physical modelling and simulation, state estimation, embedded firmware, and a way to grade students on how well they pulled it off. That's what this project is.
+What's less common is building the whole stack around it: not just a controller that works, but a lab project that covers symbolic dynamics, physical modelling and simulation, state estimation, embedded firmware, and a way to grade students on how well they pulled it off.
 
 ## The setup: one kit, two rigs
 
-The mechanics start from ST's [STEVAL-EDUKIT01](https://www.st.com/en/evaluation-tools/steval-edukit01.html), an off-the-shelf rotary inverted pendulum kit. The kit ships with a stepper motor and an L6474 driver, and that "stock" rig is the one most students get hands-on with first. I built a second variant that swaps the actuator for a brushless DC motor: a maxon ECX FLAT 42 M (24 V, 8 pole pairs) on ST's X-NUCLEO-IHM08M1 power board. Both versions share the same NUCLEO-F401RE controller, the same kit frame, and the same 2400 CPR optical encoder on the pendulum joint. The BLDC variant adds a second encoder (2048 CPR, on the motor shaft) for field-oriented commutation, which the stepper handles open-loop through microsteps.
+The mechanics start from ST's [STEVAL-EDUKIT01](https://www.st.com/en/evaluation-tools/steval-edukit01.html), an off-the-shelf rotary inverted pendulum kit. The kit ships with a stepper motor and an L6474 driver, and that "stock" rig is the one most students get hands-on with first. I built a second variant that swaps the actuator for a brushless DC motor: a maxon ECX FLAT 42 M on ST's X-NUCLEO-IHM08M1 power board. Both versions share the same NUCLEO-F401RE controller, the same kit frame, and the same 2400 CPR optical encoder on the pendulum joint. The BLDC variant adds a second encoder (8192 CPR, on the motor shaft) for field-oriented commutation, which the stepper handles open-loop through microsteps.
 
 The two rigs aren't redundant; they're a pedagogical pair. The stepper is the cheap, simple, "it just works" option that ships in the box. The BLDC is the higher-bandwidth, closer-to-a-real-servo option. A final perk of the BLDC setup is the use of slip ring contacts in the pendulum encoder wire, which allows the motor shaft to rotate freely and indefinitely. Above the firmware, the framework (Pi, Simulink model, grading) treats them identically.
 
@@ -56,7 +56,7 @@ The two rigs aren't redundant; they're a pedagogical pair. The stepper is the ch
 | Motor            | Bipolar stepper (kit)          | maxon ECX FLAT 42 M                      |
 | Driver board     | X-NUCLEO-IHM01A1 (L6474)       | X-NUCLEO-IHM08M1 (FOC + shunt sensing)   |
 | Control rate     | 1 kHz, acceleration command    | 16 kHz, torque command                   |
-| Motor encoder    | none (open-loop microsteps)    | 2048 CPR differential                    |
+| Motor encoder    | none (open-loop microsteps)    | 8192 CPR                    |
 | Pendulum encoder | 2400 CPR (shared)              | 2400 CPR (shared)                        |
 | Firmware repo    | [stepper firmware →](https://github.com/sadegroo/NUCLEO-F401RE-invpend-SPIslave-stepper) | [BLDC firmware →](https://github.com/sadegroo/NUCLEO-F401RE-invpend-SPIslave-BLDC) |
 
@@ -167,7 +167,7 @@ File:   content/posts/bldc-pendulum/swingup.mp4
   <figcaption>Swing-up: rest to upright, then hold.</figcaption>
 </figure>
 
-The portability of the rig is illustrated by means of demonstrating it on my kitchen table.
+The portability of the rig is illustrated by means of demonstrating it on my kitchen table. Please ignore the clutter.
 
 <figure>
   <video controls preload="metadata" width="100%" src="stepper_swingup.mp4"></video>
