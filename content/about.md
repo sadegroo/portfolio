@@ -4,19 +4,14 @@ url = "/about/"
 summary = "About Sander (sadegroo)."
 +++
 
-<!--
-PLACEHOLDER — fill this in with whatever framing you want readers to land on.
-A few prompts to consider:
+I'm Sander. I live in Belgium and work as a postdoc at KU Leuven, Geel
+campus, in the RAM group (Robotics, Automation and Mechatronics), where
+I teach robotics, digital twins, and process automation.
 
-- One paragraph: who you are and what you build (embedded systems, control,
-  3D printing, home automation).
-- A short list of recurring themes or tools (STM32, FOC, Klipper, ESPHome, etc.).
-- Where to find you elsewhere — GitHub, LinkedIn, email if you want to be
-  reachable.
-- Optional: a sentence on why this site exists ("project writeups that are
-  more readable than a technical README" — straight from the repo README).
+The rest of the site is the work: embedded systems and motor control
+on STM32, plus simulation and digital twins in MATLAB/Simulink. The
+Posts section is the actual record.
 
-Keep it short. The Posts and Projects sections do the heavy lifting.
--->
-
-About page placeholder — see `content/about.md` for editing prompts.
+Reach me at [githubpages@alias.sadegroo.xyz](mailto:githubpages@alias.sadegroo.xyz),
+or find me on [GitHub](https://github.com/sadegroo) and
+[LinkedIn](https://www.linkedin.com/in/sdg92/).

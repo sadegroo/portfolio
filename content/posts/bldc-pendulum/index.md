@@ -131,7 +131,7 @@ File:   content/posts/bldc-pendulum/sim-vs-hardware.png
 
 The whole stack (firmware, model, controllers, scoring tool) is set up as a course lab. Student teams get the framework and a brief: design a controller that swings the pendulum from rest to upright as fast as possible, *and* whose simulation matches the real hardware as closely as possible.
 
-Two metrics, deliberately in tension. You can win on speed by being aggressive with the swing-up energy law, but if your model isn't accurate enough to predict where the rod will end up, you'll overshoot the catch window for the LQR and lose. You can win on fidelity by sandbagging, simulating a slow, conservative trajectory that's easy to match, but then you lose on time. The good teams have to do both: identify the plant accurately *and* push the controller hard.
+Two metrics, deliberately in tension. You can win on speed by being aggressive with the swing-up energy law, but if your model isn't accurate enough to predict where the rod will end up, you'll overshoot the catch window for the LQR and lose. You can win points on accuracy by meticulously tuning the model parameters and structure to match reality, but then you have less time to make a fast controller. The good teams have to do both: identify the plant accurately *and* push the controller hard.
 
 A grading script consumes each team's submission (`.mldatx` files captured from the Simulink Data Inspector during their best hardware run), measures swing-up time, computes the Symmetric Mean Absolute Percentage Error between sim and hardware, and ranks the teams.
 
@@ -139,7 +139,7 @@ A grading script consumes each team's submission (`.mldatx` files captured from 
 
 {{< figure src="scoring_pi.png" alt="Team Pi scoring plot, stepper rig: hardware and simulation traces track closely until the catch" caption="Team Pi (stepper rig): 5.74 s to upright, SMAPE 68%." >}}
 
-Last cohort, two teams ran the stepper rig and tied at four points each by hitting opposite ends of the trade-off. Team Theta got the rod up a full second faster, but their digital twin spent the run drifting away from the real system (they did not spend as much time tuning the model parameters); a SMAPE near 120% means sim and hardware barely agreed on amplitude. Team Pi conceded that second and earned it back on accuracy: the two traces hug each other almost to the catch. Same total score, two opposite engineering bets. The plots above are unedited output from the grading script. The BLDC rig produces the same shape of plot; the difference is the y-axis scale and the kind of swing-up time you can chase.
+Last cohort, two teams ran the stepper rig and tied at four points each by hitting opposite ends of the trade-off. Team Theta got the rod up a full second faster, but their digital twin spent the run drifting away from the real system (they did not spend as much time tuning the model parameters); a SMAPE near 120% means sim and hardware barely agreed on amplitude. Team Pi conceded that second and earned it back on accuracy: the two traces hug each other almost to the catch. Same total score, two opposite engineering bets.
 
 It's the part of the project I think about most. The hardware and the maths are well understood; teaching is where the value gets made or lost. Wrapping a competition around the digital-twin workflow forces students to take the simulation seriously, because their grade depends on its accuracy, not just on whether their controller eventually works.
 
