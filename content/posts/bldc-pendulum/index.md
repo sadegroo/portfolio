@@ -3,7 +3,7 @@ title = "One Simulink Model, Two Targets: A Digital Twin for an Inverted Pendulu
 date = 2026-04-28
 draft = false
 tags = ["embedded", "control", "STM32", "BLDC", "stepper", "MATLAB", "digital twin", "education"]
-summary = "A Simulink digital twin, an STM32 motor driver in two flavours (stepper and brushless), and a student competition — all built around a 25 cm pendulum that refuses to fall over."
+summary = "A Simulink digital twin, an STM32 motor driver in two flavours (stepper and brushless), and a student competition, all built around a 25 cm pendulum that refuses to fall over."
 +++
 
 <!--
@@ -17,7 +17,7 @@ DRAFTING NOTES (for Sander, before publish):
   Drop the asset into `content/posts/bldc-pendulum/` (this is a page bundle,
   assets go next to index.md) and uncomment the line.
 - MATLAB screenshots that also appear in the digtwin_labo README are
-  duplicated by hand — copy the file into both repos when updating.
+  duplicated by hand: copy the file into both repos when updating.
 - Tone target: confident, concrete, lightly personal. Cut anything that
   sounds like marketing. Add lab anecdotes where I'm being too clean.
 - Prose written for a technically curious general audience, not a control
@@ -47,9 +47,9 @@ What's less common is building the whole stack around it: not just a controller 
 
 ## The setup: one kit, two rigs
 
-The mechanics start from ST's [STEVAL-EDUKIT01](https://www.st.com/en/evaluation-tools/steval-edukit01.html), an off-the-shelf rotary inverted pendulum kit. The kit ships with a stepper motor and an L6474 driver, and that "stock" rig is the one most students get hands-on with first. I built a second variant that swaps the actuator for a brushless DC motor — a maxon ECX FLAT 42 M (24 V, 8 pole pairs) on ST's X-NUCLEO-IHM08M1 power board. Both versions share the same NUCLEO-F401RE controller, the same kit frame, and the same 2400 CPR optical encoder on the pendulum joint. The BLDC variant adds a second encoder (2048 CPR, on the motor shaft) for field-oriented commutation; the stepper doesn't need it — microsteps give it position open-loop.
+The mechanics start from ST's [STEVAL-EDUKIT01](https://www.st.com/en/evaluation-tools/steval-edukit01.html), an off-the-shelf rotary inverted pendulum kit. The kit ships with a stepper motor and an L6474 driver, and that "stock" rig is the one most students get hands-on with first. I built a second variant that swaps the actuator for a brushless DC motor: a maxon ECX FLAT 42 M (24 V, 8 pole pairs) on ST's X-NUCLEO-IHM08M1 power board. Both versions share the same NUCLEO-F401RE controller, the same kit frame, and the same 2400 CPR optical encoder on the pendulum joint. The BLDC variant adds a second encoder (2048 CPR, on the motor shaft) for field-oriented commutation, which the stepper handles open-loop through microsteps.
 
-The two rigs aren't redundant; they're a pedagogical pair. The stepper is the cheap, simple, "it just works" option that ships in the box. The BLDC is the higher-bandwidth, closer-to-a-real-servo option. A final perk of the BLDC setup is the use of slip ring contacts in the pendulum encoder wire, which allows the motor shaft to rotate freely and indefinitely. Above the firmware, the framework — Pi, Simulink model, grading — treats them identically.
+The two rigs aren't redundant; they're a pedagogical pair. The stepper is the cheap, simple, "it just works" option that ships in the box. The BLDC is the higher-bandwidth, closer-to-a-real-servo option. A final perk of the BLDC setup is the use of slip ring contacts in the pendulum encoder wire, which allows the motor shaft to rotate freely and indefinitely. Above the firmware, the framework (Pi, Simulink model, grading) treats them identically.
 
 |                  | Stepper rig                    | BLDC rig                                 |
 |------------------|--------------------------------|------------------------------------------|
@@ -103,15 +103,15 @@ Alt:    Static SVG block diagram is a fine fallback. Keep it minimal.
 
 Here's the part I'm proudest of: the *same Simulink model* drives both the simulation and the real hardware.
 
-The model contains the pendulum's nonlinear equations of motion (implicit in Simulink, but also derived symbolically with Euler-Lagrange for controller and observer design), an Unscented Kalman Filter that reconstructs the full 4-D state (two angles plus two angular velocities) from the encoder readings, and the LQR + swing-up controllers. The simulated plant itself is built in Simscape Multibody — joints, transforms, and rigid bodies that mirror the bench geometry.
+The model contains the pendulum's nonlinear equations of motion (implicit in Simulink, but also derived symbolically with Euler-Lagrange for controller and observer design), an Unscented Kalman Filter that reconstructs the full 4-D state (two angles plus two angular velocities) from the encoder readings, and the LQR + swing-up controllers. The simulated plant itself is built in Simscape Multibody: joints, transforms, and rigid bodies that mirror the bench geometry.
 
-{{< figure src="simulink_multibody_model.png" alt="Simscape Multibody block diagram of the pendulum: revolute joints, rigid transforms, and brick body blocks wired into state outputs" caption="The simulated plant in Simscape Multibody — same geometry, same joints, same dynamics as the bench rig." >}}
+{{< figure src="simulink_multibody_model.png" alt="Simscape Multibody block diagram of the pendulum: revolute joints, rigid transforms, and brick body blocks wired into state outputs" caption="The simulated plant in Simscape Multibody, mirroring the geometry, joints, and dynamics of the bench rig." >}}
 
-A Simulink "variant subsystem" sits in the middle: when you simulate, it routes the actuator command into the Multibody plant; when you deploy, it routes it out through the SPI interface to the real STM32. Those are the two targets in the title — *simulation* and *real hardware*, from one model file. (The choice of stepper vs BLDC at the bottom of the stack is a second variant switch, layered underneath: torque-out for one rig, acceleration-out for the other.)
+A Simulink "variant subsystem" sits in the middle: when you simulate, it routes the actuator command into the Multibody plant; when you deploy, it routes it out through the SPI interface to the real STM32. Those are the two targets in the title: *simulation* and *real hardware*, from one model file. (The choice of stepper vs BLDC at the bottom of the stack is a second variant switch, layered underneath: torque-out for one rig, acceleration-out for the other.)
 
 {{< figure src="simulink_variant_blocks.png" alt="The variant subsystem in Simulink: top branch labelled SIMULATION wraps a 3D pendulum render; bottom branch labelled PHYSICAL SYSTEM wraps the same render. Both branches have identical input and output ports" caption="The variant subsystem itself: top = simulated plant; bottom = SPI bridge to the real bench. Same ports, same controller upstream." >}}
 
-In practice this means: tune the controller in simulation, hit one button, and the same controller is now running on the Pi commanding the real motor. No manual, impractical, and error-prone translation step.
+In practice this means: tune the controller in simulation, hit one button, and the same controller is now running on the Pi commanding the real motor, with no hand-translation step in between.
 
 <!--
 📷 SIDE-BY-SIDE: SIM vs. HARDWARE
@@ -135,11 +135,11 @@ Two metrics, deliberately in tension. You can win on speed by being aggressive w
 
 A grading script consumes each team's submission (`.mldatx` files captured from the Simulink Data Inspector during their best hardware run), measures swing-up time, computes the Symmetric Mean Absolute Percentage Error between sim and hardware, and ranks the teams.
 
-{{< figure src="scoring_theta.png" alt="Team Theta scoring plot, stepper rig: hardware swings far wider than the simulation predicts" caption="Team Theta (stepper rig) — 4.68 s to upright, SMAPE 119." >}}
+{{< figure src="scoring_theta.png" alt="Team Theta scoring plot, stepper rig: hardware swings far wider than the simulation predicts" caption="Team Theta (stepper rig): 4.68 s to upright, SMAPE 119." >}}
 
-{{< figure src="scoring_pi.png" alt="Team Pi scoring plot, stepper rig: hardware and simulation traces track closely until the catch" caption="Team Pi (stepper rig) — 5.74 s to upright, SMAPE 68." >}}
+{{< figure src="scoring_pi.png" alt="Team Pi scoring plot, stepper rig: hardware and simulation traces track closely until the catch" caption="Team Pi (stepper rig): 5.74 s to upright, SMAPE 68." >}}
 
-Last cohort, two teams ran the stepper rig and tied at four points each by hitting opposite ends of the trade-off. Team Theta got the rod up a full second faster, but their digital twin spent the run drifting away from the bench — a SMAPE near 120% means sim and hardware barely agreed on amplitude. Team Pi conceded that second and earned it back on fidelity: the two traces hug each other almost to the catch. Same total score, two opposite engineering bets. The plots above drop straight out of the grading script — no hand-cleanup. The BLDC rig produces the same shape of plot; the difference is the y-axis scale and the kind of swing-up time you can chase.
+Last cohort, two teams ran the stepper rig and tied at four points each by hitting opposite ends of the trade-off. Team Theta got the rod up a full second faster, but their digital twin spent the run drifting away from the bench; a SMAPE near 120% means sim and hardware barely agreed on amplitude. Team Pi conceded that second and earned it back on fidelity: the two traces hug each other almost to the catch. Same total score, two opposite engineering bets. The plots above are unedited output from the grading script. The BLDC rig produces the same shape of plot; the difference is the y-axis scale and the kind of swing-up time you can chase.
 
 It's the part of the project I think about most. The hardware and the maths are well understood; teaching is where the value gets made or lost. Wrapping a competition around the digital-twin workflow forces students to take the simulation seriously, because their grade depends on its accuracy, not just on whether their controller eventually works.
 
@@ -172,13 +172,13 @@ File:   content/posts/bldc-pendulum/swingup.mp4
   <figcaption>Same swing-up on the stepper rig.</figcaption>
 </figure>
 
-The swing-up is the textbook trick. The honest question is what happens once you start poking — and how hard you can poke before the LQR runs out of authority.
+The swing-up is the textbook trick. The honest question is how hard you can poke the rod before the LQR runs out of authority.
 
 <!--
 🎥 PUSH TEST CLIP
 What:   Pendulum balanced upright. Hand comes in from off-frame, gives
         the rod a tap. Recovery. Then a harder tap. Then one shove too
-        many — controller can't catch it, rod swings down.
+        many. Controller can't catch it, rod swings down.
 Why:    Robustness under disturbance is what separates a balancing demo
         from an actual controller. Showing where the controller fails
         is more honest (and more compelling) than only showing recovery.
@@ -189,14 +189,14 @@ File:   content/posts/bldc-pendulum/pushtest.mp4
   <figcaption>Push test: a finger tap, a harder one, and finally one shove too many.</figcaption>
 </figure>
 
-And here's the same loop in pure simulation — swing-up trigger, the Mechanics Explorer mirroring the model in 3D, two setpoint nudges, then the drop button:
+And here's the same loop in pure simulation. Swing-up trigger, Mechanics Explorer mirroring the model in 3D, two setpoint nudges, then the drop button:
 
 <figure>
   <video controls preload="metadata" width="100%" src="simulink_simulation.mp4"></video>
   <figcaption>Pure-simulation run: same controller, same gains, no motor.</figcaption>
 </figure>
 
-If you want to try it yourself, the Simulink model runs end-to-end like this — same controller, same gains, same code path as on hardware. You won't feel the motor sing, but you'll see the same trajectories.
+If you want to try it yourself, the Simulink model runs end-to-end on the same controller, gains, and code path as on hardware. You won't feel the motor sing, but the trajectories will match.
 
 ## Try it / source
 
@@ -213,6 +213,6 @@ TODO BEFORE PUBLISH:
 1. Replace the date if you publish later than 2026-04-28.
 2. Optional: add a footer link to the lab handout PDF if it's something
    you're happy to share publicly.
-3. Fill the remaining placeholder visual (sim-vs-hardware overlay) —
+3. Fill the remaining placeholder visual (sim-vs-hardware overlay):
    uncomment the corresponding {{< figure >}} line when it lands.
 -->
